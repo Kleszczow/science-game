@@ -12,9 +12,11 @@ const makeRows = (rows, cols) => {
 
 makeRows(10, 10);
 
+let indexArr = [];
+
 const special = (l) => {
   const gridItems = document.querySelectorAll(".grid-item");
-  let indexArr = [];
+
   for (i = 0; i < l; i++) {
     const randomIndex = Math.floor(Math.random() * gridItems.length);
     if (indexArr.includes(randomIndex)) {
@@ -28,14 +30,14 @@ const special = (l) => {
   }
 };
 
-special(10);
+special(95);
 
 //jezeli pole zostało klikniete'
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
     if (element.classList.contains("gridSpecial")) {
-      showQuestion();
+      showQuestion(element);
     }
   });
 });
@@ -52,14 +54,35 @@ const randomQuestion = () => {
   return newobejct;
 };
 
-const showQuestion = () => {
+const showQuestion = (element) => {
   const array = randomQuestion();
   const question = array.quest;
   let responder = array.solution;
   const answer = prompt(`${question} is?`);
   if (answer == responder) {
     console.log(`congrats: solution ${responder} you type ${answer}`);
+    element.classList.remove("gridSpecial");
   } else {
     console.log(`try again: solution ${responder} you type ${answer}`);
+    wrongSolution();
+    element.classList.remove("gridSpecial");
   }
 };
+const wrongSolution = () => {
+  const randomIndex = Math.floor(Math.random() * gridItems.length);
+  const changePosition = gridItems[randomIndex];
+  if (
+    changePosition.classList.contains("gridSpecial") ||
+    changePosition.classList.contains("gridSpecialThre")
+  ) {
+    changePosition.classList.add("gridSpecialThre");
+    wrongSolution();
+  } else {
+    console.log(`2`);
+    changePosition.classList.add("gridSpecialTwo");
+  }
+};
+
+//sprawdzić czy div ma klase gridSpecial
+//jezeli nie to doda do niego klase
+//sprawdzić czy nie jest to ten sam div
