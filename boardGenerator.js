@@ -1,5 +1,7 @@
 const container = document.querySelector(".container");
 
+let scores = 0;
+
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
   container.style.setProperty("--grid-cols", cols);
@@ -30,7 +32,7 @@ const special = (l) => {
   }
 };
 
-special(95);
+special(90);
 
 //jezeli pole zostało klikniete'
 const gridItems = document.querySelectorAll(".grid-item");
@@ -49,7 +51,6 @@ const randomQuestion = () => {
     { quest: "4 x 4", solution: "16" },
   ];
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
-
   const newobejct = allQuestion[randomNumber];
   return newobejct;
 };
@@ -62,12 +63,17 @@ const showQuestion = (element) => {
   if (answer == responder) {
     console.log(`congrats: solution ${responder} you type ${answer}`);
     element.classList.remove("gridSpecial");
+    element.classList.add("gridSpecialTwo");
+    scores++;
+    console.log(scores);
   } else {
     console.log(`try again: solution ${responder} you type ${answer}`);
     wrongSolution();
     element.classList.remove("gridSpecial");
+    element.classList.add("gridSpecialTwo");
   }
 };
+/*
 const wrongSolution = () => {
   const randomIndex = Math.floor(Math.random() * gridItems.length);
   const changePosition = gridItems[randomIndex];
@@ -82,7 +88,30 @@ const wrongSolution = () => {
     changePosition.classList.add("gridSpecialTwo");
   }
 };
-
+*/
+const wrongSolution = () => {
+  const index = [];
+  for (let i = 0; i < gridItems.length; i++) {
+    if (!gridItems[i].classList.contains("gridSpecial")) {
+      if (!gridItems[i].classList.contains("gridSpecialTwo")) {
+        if (!gridItems[i].classList.contains("gridSpecialThre")) {
+          index.push(i);
+          continue;
+        }
+      }
+    }
+  }
+  givClass(index);
+  return index;
+};
 //sprawdzić czy div ma klase gridSpecial
 //jezeli nie to doda do niego klase
 //sprawdzić czy nie jest to ten sam div
+
+const givClass = (index) => {
+  console.log(index);
+  const randomIndex = Math.floor(Math.random() * index.length);
+  const changePosition = gridItems[index[randomIndex]];
+  changePosition.classList.add("gridSpecialThre");
+  console.log(changePosition);
+};
