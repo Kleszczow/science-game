@@ -1,6 +1,5 @@
 const container = document.querySelector(".container");
-
-let scores = 0;
+const subtext = document.querySelector(".subtext");
 
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
@@ -12,7 +11,7 @@ const makeRows = (rows, cols) => {
   }
 };
 
-makeRows(10, 10);
+makeRows(6, 5);
 
 let indexArr = [];
 
@@ -31,14 +30,20 @@ const special = (l) => {
     }
   }
 };
+let bugs = 5;
+let scores = bugs;
+subtext.innerHTML = `Bugs Left: ${scores}`;
 
-special(90);
+special(bugs);
 
 //jezeli pole zostało klikniete'
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
     if (element.classList.contains("gridSpecial")) {
+      showQuestion(element);
+    }
+    if (element.classList.contains("gridSpecialThre")) {
       showQuestion(element);
     }
   });
@@ -58,37 +63,34 @@ const randomQuestion = () => {
 const showQuestion = (element) => {
   const array = randomQuestion();
   const question = array.quest;
-  let responder = array.solution;
+  const responder = array.solution;
   const answer = prompt(`${question} is?`);
   if (answer == responder) {
     console.log(`congrats: solution ${responder} you type ${answer}`);
     element.classList.remove("gridSpecial");
     element.classList.add("gridSpecialTwo");
-    scores++;
-    console.log(scores);
+    if (element.classList.contains("gridSpecialThre")) {
+      element.classList.remove("gridSpecialThre");
+      element.classList.add("gridSpecialTwo");
+    }
+    scores--;
+    subtext.innerHTML = `Bugs Left: ${scores}`;
+    if (scores == 0) {
+      alert("you win");
+      container.setAttribute("disabled", "true");
+    }
   } else {
     console.log(`try again: solution ${responder} you type ${answer}`);
     wrongSolution();
     element.classList.remove("gridSpecial");
     element.classList.add("gridSpecialTwo");
+    if (element.classList.contains("gridSpecialThre")) {
+      element.classList.remove("gridSpecialThre");
+      element.classList.add("gridSpecialTwo");
+    }
   }
 };
-/*
-const wrongSolution = () => {
-  const randomIndex = Math.floor(Math.random() * gridItems.length);
-  const changePosition = gridItems[randomIndex];
-  if (
-    changePosition.classList.contains("gridSpecial") ||
-    changePosition.classList.contains("gridSpecialThre")
-  ) {
-    changePosition.classList.add("gridSpecialThre");
-    wrongSolution();
-  } else {
-    console.log(`2`);
-    changePosition.classList.add("gridSpecialTwo");
-  }
-};
-*/
+
 const wrongSolution = () => {
   const index = [];
   for (let i = 0; i < gridItems.length; i++) {
@@ -104,14 +106,12 @@ const wrongSolution = () => {
   givClass(index);
   return index;
 };
-//sprawdzić czy div ma klase gridSpecial
-//jezeli nie to doda do niego klase
-//sprawdzić czy nie jest to ten sam div
 
 const givClass = (index) => {
-  console.log(index);
   const randomIndex = Math.floor(Math.random() * index.length);
-  const changePosition = gridItems[index[randomIndex]];
+  const position = index[randomIndex];
+  const changePosition = gridItems[position];
   changePosition.classList.add("gridSpecialThre");
-  console.log(changePosition);
 };
+
+//problem z niebieskim divem nie ma obslugi poprawnosic odpiwedzi!!!
