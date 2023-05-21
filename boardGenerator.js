@@ -11,7 +11,7 @@ const makeRows = (rows, cols) => {
   }
 };
 
-makeRows(6, 5);
+makeRows(3, 5);
 
 let indexArr = [];
 
@@ -37,6 +37,7 @@ subtext.innerHTML = `Bugs Left: ${scores}`;
 special(bugs);
 
 //jezeli pole zostało klikniete'
+
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
@@ -61,17 +62,15 @@ const randomQuestion = () => {
 };
 
 const showQuestion = (element) => {
-  const array = randomQuestion();
-  const question = array.quest;
-  const responder = array.solution;
-  const answer = prompt(`${question} is?`);
-  if (answer == responder) {
-    console.log(`congrats: solution ${responder} you type ${answer}`);
+  const { quest, solution } = randomQuestion();
+  const answer = prompt(`${quest} is?`);
+
+  if (answer == solution) {
+    console.log(`congrats: solution ${solution}, you typed ${answer}`);
     element.classList.remove("gridSpecial");
     element.classList.add("gridSpecialTwo");
     if (element.classList.contains("gridSpecialThre")) {
-      element.classList.remove("gridSpecialThre");
-      element.classList.add("gridSpecialTwo");
+      element.classList.replace("gridSpecialThre", "gridSpecialTwo");
     }
     scores--;
     subtext.innerHTML = `Bugs Left: ${scores}`;
@@ -80,13 +79,12 @@ const showQuestion = (element) => {
       container.setAttribute("disabled", "true");
     }
   } else {
-    console.log(`try again: solution ${responder} you type ${answer}`);
+    console.log(`try again: solution ${solution}, you typed ${answer}`);
     wrongSolution();
     element.classList.remove("gridSpecial");
     element.classList.add("gridSpecialTwo");
     if (element.classList.contains("gridSpecialThre")) {
-      element.classList.remove("gridSpecialThre");
-      element.classList.add("gridSpecialTwo");
+      element.classList.replace("gridSpecialThre", "gridSpecialTwo");
     }
   }
 };
@@ -94,13 +92,13 @@ const showQuestion = (element) => {
 const wrongSolution = () => {
   const index = [];
   for (let i = 0; i < gridItems.length; i++) {
-    if (!gridItems[i].classList.contains("gridSpecial")) {
-      if (!gridItems[i].classList.contains("gridSpecialTwo")) {
-        if (!gridItems[i].classList.contains("gridSpecialThre")) {
-          index.push(i);
-          continue;
-        }
-      }
+    const item = gridItems[i];
+    if (
+      !item.classList.contains("gridSpecial") &&
+      !item.classList.contains("gridSpecialTwo") &&
+      !item.classList.contains("gridSpecialThre")
+    ) {
+      index.push(i);
     }
   }
   givClass(index);
@@ -114,4 +112,46 @@ const givClass = (index) => {
   changePosition.classList.add("gridSpecialThre");
 };
 
-//problem z niebieskim divem nie ma obslugi poprawnosic odpiwedzi!!!
+const imagesData = [
+  {
+    row: 1,
+    src: "./pictures/wegetables/carrot-salad-vegetables-svgrepo-com.svg",
+    alt: "carrot",
+  },
+  {
+    row: 2,
+    src: "./pictures/wegetables/broccoli-cabbage-health-svgrepo-com.svg",
+    alt: "broccoli",
+  },
+  {
+    row: 3,
+    src: "./pictures/wegetables/fruit-tomato-vegetables-svgrepo-com.svg",
+    alt: "tomato",
+  },
+];
+const generteImae = () => {
+  /*
+  const image = document.createElement("img");
+  image.src = src;
+  image.alt = alt;
+
+  const gridImg = document.createElement("div");
+  gridImg.classList.add("gridImg");
+  gridImg.appendChild(image);
+  const cards = document.querySelectorAll(".grid-item");
+  for (i = 0; i < cards.length; i++) {
+    cards[i].appendChild(image);
+    console.log("hello" + i);
+  }
+  */
+
+  let listElement = document.createElement("ol");
+  for (i = 0; i < gridItems.length; i++) {
+    gridItems[i].appendChild(listElement);
+  }
+};
+
+imagesData.forEach((imageData) => {
+  const info = ({ row, src, alt } = imageData);
+  generteImae(info);
+});

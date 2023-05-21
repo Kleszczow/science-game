@@ -60,10 +60,12 @@ h1 {
 .gridSpecial {
   background-color: red;
 }
-
 .gridSpecialTwo {
   background-color: green;
 }
 .gridSpecialThre {
   background-color: blue;
+}
+.gridImg {
+  width: 30px;
 }
