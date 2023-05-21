@@ -111,7 +111,7 @@ const givClass = (index) => {
   const changePosition = gridItems[position];
   changePosition.classList.add("gridSpecialThre");
 };
-
+/*
 const imagesData = [
   {
     row: 1,
@@ -130,7 +130,7 @@ const imagesData = [
   },
 ];
 const generteImae = () => {
-  /*
+  
   const image = document.createElement("img");
   image.src = src;
   image.alt = alt;
@@ -143,7 +143,7 @@ const generteImae = () => {
     cards[i].appendChild(image);
     console.log("hello" + i);
   }
-  */
+  
 
   let listElement = document.createElement("ol");
   for (i = 0; i < gridItems.length; i++) {
@@ -155,3 +155,14 @@ imagesData.forEach((imageData) => {
   const info = ({ row, src, alt } = imageData);
   generteImae(info);
 });
+*/
+const addImg = () => {
+  const gridItems = document.querySelectorAll(".grid-item");
+  for (i = 0; i < gridItems.length; i++) {
+    const newSpan = document.createElement("span");
+    newSpan.innerHTML =
+      '<img class="wegetables" src="./pictures/wegetables/fruit-tomato-vegetables-svgrepo-com.svg" alt="tomato"></img>';
+    gridItems[i].appendChild(newSpan);
+  }
+};
+addImg();

@@ -69,3 +69,8 @@ h1 {
 .gridImg {
   width: 30px;
 }
+
+.wegetables {
+  width: 30px;
+  aspect-ratio: 1;
+}
