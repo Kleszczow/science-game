@@ -1,7 +1,12 @@
 const container = document.querySelector(".container");
 const subtext = document.querySelector(".subtext");
+const wining = document.querySelector(".wining");
+const winText = document.querySelector(".winText");
+const resetGame = document.querySelector("#resetGame");
+const resetGameLost = document.querySelector("#resetGameLost");
+const lost = document.querySelector(".lost");
 
-const data = { bugs: 5, rows: 4, cols: 5 };
+let data = { bugs: 19, rows: 4, cols: 5 };
 
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
@@ -12,7 +17,7 @@ const makeRows = (rows, cols) => {
     container.appendChild(cell).className = "grid-item";
   }
 };
-const { cols, rows, bugs } = data;
+let { cols, rows, bugs } = data;
 
 makeRows(rows, cols);
 
@@ -39,8 +44,6 @@ subtext.innerHTML = `Bugs Left: ${scores}`;
 
 special(bugs);
 
-//jezeli pole zostało klikniete'
-
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
@@ -55,9 +58,9 @@ gridItems.forEach((element) => {
 
 const randomQuestion = () => {
   const allQuestion = [
-    { quest: "2 x 2", solution: "4" },
-    { quest: "6 x 6", solution: "36" },
-    { quest: "4 x 4", solution: "16" },
+    { quest: "2 x 2", solution: "1" },
+    { quest: "6 x 6", solution: "1" },
+    { quest: "4 x 4", solution: "1" },
   ];
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
   const newobejct = allQuestion[randomNumber];
@@ -72,24 +75,33 @@ const showQuestion = (element) => {
     console.log(`congrats: solution ${solution}, you typed ${answer}`);
     element.classList.remove("gridSpecial");
     element.classList.add("gridSpecialTwo");
+
     if (element.classList.contains("gridSpecialThre")) {
       element.classList.replace("gridSpecialThre", "gridSpecialTwo");
     }
     scores--;
     subtext.innerHTML = `Bugs Left: ${scores}`;
     if (scores == 0) {
-      alert("you win");
-      container.setAttribute("disabled", "true");
+      winGame();
+      // container.setAttribute("disabled", "true");
+      console.log("3 if");
     }
   } else {
     console.log(`try again: solution ${solution}, you typed ${answer}`);
     wrongSolution();
     element.classList.remove("gridSpecial");
     element.classList.add("gridSpecialTwo");
+
     if (element.classList.contains("gridSpecialThre")) {
       element.classList.replace("gridSpecialThre", "gridSpecialTwo");
     }
   }
+};
+const winGame = () => {
+  wining.style.display = "flex";
+};
+const lostGame = () => {
+  lost.style.display = "flex";
 };
 
 const wrongSolution = () => {
@@ -104,6 +116,7 @@ const wrongSolution = () => {
       index.push(i);
     }
   }
+
   givClass(index);
   return index;
 };
@@ -112,7 +125,11 @@ const givClass = (index) => {
   const randomIndex = Math.floor(Math.random() * index.length);
   const position = index[randomIndex];
   const changePosition = gridItems[position];
-  changePosition.classList.add("gridSpecialThre");
+  try {
+    changePosition.classList.add("gridSpecialThre");
+  } catch (error) {
+    lostGame();
+  }
 };
 
 const imagesData = [
@@ -129,10 +146,9 @@ const imagesData = [
 const addImgToGrid = (i, y) => {
   const gridItems = document.querySelectorAll(".grid-item");
   const randomNumber = Math.floor(Math.random() * imagesData.length);
-  let w = randomNumber;
   for (i; i < y; i++) {
     const newSpan = document.createElement("span");
-    newSpan.innerHTML = imagesData[w];
+    newSpan.innerHTML = imagesData[randomNumber];
     gridItems[i].appendChild(newSpan);
   }
 };
@@ -142,26 +158,53 @@ const generateImg = () => {
   let y = cols;
   let r = rows;
 
-  addImgToGrid(i, y);
-  if (r >= 2) {
-    i = cols;
-    y = cols * 2;
+  for (let j = 1; j <= r; j++) {
     addImgToGrid(i, y);
-  }
-  if (r >= 3) {
-    i = cols * 2;
-    y = cols * 3;
-    addImgToGrid(i, y);
-  }
-  if (r >= 4) {
-    i = cols * 3;
-    y = cols * 4;
-    addImgToGrid(i, y);
-  }
-  if (r >= 5) {
-    i = cols * 4;
-    y = cols * 5;
-    addImgToGrid(i, y);
+    i = y;
+    y = cols * (j + 1);
   }
 };
+
 generateImg();
+
+resetGame.addEventListener("click", () => {
+  const gridItems = document.querySelectorAll(".grid-item");
+  for (let i = 0; i < gridItems.length; i++) {
+    gridItems[i].classList.remove(
+      "gridSpecial",
+      "gridSpecialTwo",
+      "gridSpecialThre"
+    );
+  }
+  replayGameWin();
+});
+
+const replayGameWin = () => {
+  bugs++;
+  indexArr.length = 0;
+  special(bugs);
+  scores = bugs;
+  wining.style.display = "none";
+  subtext.innerHTML = `Bugs Left: ${scores}`;
+};
+
+const replayGameLost = () => {
+  indexArr.length = 0;
+  bugs = 1;
+  special(bugs);
+  scores = bugs;
+  subtext.innerHTML = `Bugs Left: ${scores}`;
+  lost.style.display = "none";
+};
+
+resetGameLost.addEventListener("click", () => {
+  const gridItems = document.querySelectorAll(".grid-item");
+  for (let i = 0; i < gridItems.length; i++) {
+    gridItems[i].classList.remove(
+      "gridSpecial",
+      "gridSpecialTwo",
+      "gridSpecialThre"
+    );
+  }
+  replayGameLost();
+});
