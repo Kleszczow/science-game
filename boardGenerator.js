@@ -1,6 +1,8 @@
 const container = document.querySelector(".container");
 const subtext = document.querySelector(".subtext");
 
+const data = { bugs: 5, rows: 3, cols: 5 };
+
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
   container.style.setProperty("--grid-cols", cols);
@@ -10,8 +12,10 @@ const makeRows = (rows, cols) => {
     container.appendChild(cell).className = "grid-item";
   }
 };
+const { cols, rows, bugs } = data;
+console.log(cols);
 
-makeRows(3, 5);
+makeRows(rows, cols);
 
 let indexArr = [];
 
@@ -30,7 +34,7 @@ const special = (l) => {
     }
   }
 };
-let bugs = 5;
+
 let scores = bugs;
 subtext.innerHTML = `Bugs Left: ${scores}`;
 
@@ -111,58 +115,29 @@ const givClass = (index) => {
   const changePosition = gridItems[position];
   changePosition.classList.add("gridSpecialThre");
 };
-/*
-const imagesData = [
-  {
-    row: 1,
-    src: "./pictures/wegetables/carrot-salad-vegetables-svgrepo-com.svg",
-    alt: "carrot",
-  },
-  {
-    row: 2,
-    src: "./pictures/wegetables/broccoli-cabbage-health-svgrepo-com.svg",
-    alt: "broccoli",
-  },
-  {
-    row: 3,
-    src: "./pictures/wegetables/fruit-tomato-vegetables-svgrepo-com.svg",
-    alt: "tomato",
-  },
-];
-const generteImae = () => {
-  
-  const image = document.createElement("img");
-  image.src = src;
-  image.alt = alt;
 
-  const gridImg = document.createElement("div");
-  gridImg.classList.add("gridImg");
-  gridImg.appendChild(image);
-  const cards = document.querySelectorAll(".grid-item");
-  for (i = 0; i < cards.length; i++) {
-    cards[i].appendChild(image);
-    console.log("hello" + i);
-  }
-  
-
-  let listElement = document.createElement("ol");
-  for (i = 0; i < gridItems.length; i++) {
-    gridItems[i].appendChild(listElement);
-  }
-};
-
-imagesData.forEach((imageData) => {
-  const info = ({ row, src, alt } = imageData);
-  generteImae(info);
-});
-*/
 const addImg = () => {
   const gridItems = document.querySelectorAll(".grid-item");
-  for (i = 0; i < gridItems.length; i++) {
+  for (let i = 0; i < cols; i++) {
     const newSpan = document.createElement("span");
     newSpan.innerHTML =
       '<img class="wegetables" src="./pictures/wegetables/fruit-tomato-vegetables-svgrepo-com.svg" alt="tomato"></img>';
     gridItems[i].appendChild(newSpan);
   }
+  for (let i = cols; i < cols * 2; i++) {
+    const newSpan = document.createElement("span");
+    newSpan.innerHTML =
+      '<img class="wegetables" src="./pictures/wegetables/broccoli-cabbage-health-svgrepo-com.svg" alt="tomato"></img>';
+    gridItems[i].appendChild(newSpan);
+    console.log(i);
+  }
+  for (let i = cols * 2; i < cols * 3; i++) {
+    const newSpan = document.createElement("span");
+    newSpan.innerHTML =
+      '<img class="wegetables" src="./pictures/wegetables/pumpkin-salad-vegetables-svgrepo-com.svg" alt="tomato"></img>';
+    gridItems[i].appendChild(newSpan);
+    console.log(i);
+  }
 };
+
 addImg();
