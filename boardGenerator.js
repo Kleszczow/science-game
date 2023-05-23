@@ -1,7 +1,6 @@
 const container = document.querySelector(".container");
 const subtext = document.querySelector(".subtext");
 const wining = document.querySelector(".wining");
-const winText = document.querySelector(".winText");
 const resetGame = document.querySelector("#resetGame");
 const resetGameLost = document.querySelector("#resetGameLost");
 const lost = document.querySelector(".lost");
@@ -17,8 +16,8 @@ const makeRows = (rows, cols) => {
     container.appendChild(cell).className = "grid-item";
   }
 };
-let { cols, rows, bugs } = data;
 
+let { cols, rows, bugs } = data;
 makeRows(rows, cols);
 
 let indexArr = [];
@@ -58,13 +57,13 @@ gridItems.forEach((element) => {
 
 const randomQuestion = () => {
   const allQuestion = [
-    { quest: "2 x 2", solution: "1" },
-    { quest: "6 x 6", solution: "1" },
-    { quest: "4 x 4", solution: "1" },
+    { quest: "2 x 2", solution: "4" },
+    { quest: "6 x 6", solution: "36" },
+    { quest: "4 x 4", solution: "16" },
   ];
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
-  const newobejct = allQuestion[randomNumber];
-  return newobejct;
+  const newQuestion = allQuestion[randomNumber];
+  return newQuestion;
 };
 
 const showQuestion = (element) => {
@@ -83,8 +82,6 @@ const showQuestion = (element) => {
     subtext.innerHTML = `Bugs Left: ${scores}`;
     if (scores == 0) {
       winGame();
-      // container.setAttribute("disabled", "true");
-      console.log("3 if");
     }
   } else {
     console.log(`try again: solution ${solution}, you typed ${answer}`);
@@ -97,9 +94,11 @@ const showQuestion = (element) => {
     }
   }
 };
+
 const winGame = () => {
   wining.style.display = "flex";
 };
+
 const lostGame = () => {
   lost.style.display = "flex";
 };
@@ -148,6 +147,7 @@ const addImgToGrid = (i, y) => {
   const randomNumber = Math.floor(Math.random() * imagesData.length);
   for (i; i < y; i++) {
     const newSpan = document.createElement("span");
+    newSpan.classList.add("imgSpan");
     newSpan.innerHTML = imagesData[randomNumber];
     gridItems[i].appendChild(newSpan);
   }
@@ -169,12 +169,14 @@ generateImg();
 
 resetGame.addEventListener("click", () => {
   const gridItems = document.querySelectorAll(".grid-item");
+  const wegetables = document.querySelectorAll(".wegetables");
   for (let i = 0; i < gridItems.length; i++) {
     gridItems[i].classList.remove(
       "gridSpecial",
       "gridSpecialTwo",
       "gridSpecialThre"
     );
+    wegetables[i].classList.remove("falling");
   }
   replayGameWin();
 });
@@ -199,12 +201,23 @@ const replayGameLost = () => {
 
 resetGameLost.addEventListener("click", () => {
   const gridItems = document.querySelectorAll(".grid-item");
+  const wegetables = document.querySelectorAll(".wegetables");
   for (let i = 0; i < gridItems.length; i++) {
     gridItems[i].classList.remove(
       "gridSpecial",
       "gridSpecialTwo",
       "gridSpecialThre"
     );
+    wegetables[i].classList.remove("falling");
   }
   replayGameLost();
 });
+
+for (let i = 0; i < gridItems.length; i++) {
+  let divElement = gridItems[i];
+  let imgElement = divElement.querySelector("img");
+
+  divElement.addEventListener("click", function () {
+    imgElement.classList.add("falling");
+  });
+}
