@@ -4,6 +4,9 @@ const wining = document.querySelector(".wining");
 const resetGame = document.querySelector("#resetGame");
 const resetGameLost = document.querySelector("#resetGameLost");
 const lost = document.querySelector(".lost");
+const inputValue = document.querySelector("#inputValue");
+const questionP = document.querySelector(".questionP");
+const submit = document.querySelector("#submit");
 
 let data = { bugs: 19, rows: 4, cols: 5 };
 
@@ -12,7 +15,6 @@ const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-cols", cols);
   for (i = 0; i < rows * cols; i++) {
     let cell = document.createElement("div");
-    cell.innerText = i + 1;
     container.appendChild(cell).className = "grid-item";
   }
 };
@@ -43,14 +45,21 @@ subtext.innerHTML = `Bugs Left: ${scores}`;
 
 special(bugs);
 
+let elementArr = [];
+
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
     if (element.classList.contains("gridSpecial")) {
+      elementArr.push(element);
       showQuestion(element);
+      console.log(element);
+      questionP.innerHTML = quest;
     }
     if (element.classList.contains("gridSpecialThre")) {
+      elementArr.push(element);
       showQuestion(element);
+      questionP.innerHTML = quest;
     }
   });
 });
@@ -63,20 +72,40 @@ const randomQuestion = () => {
   ];
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
   const newQuestion = allQuestion[randomNumber];
+  console.log(newQuestion);
   return newQuestion;
+};
+const { quest, solution } = randomQuestion();
+
+const getValue = () => {
+  const value = inputValue.value;
+  return value;
 };
 
 const showQuestion = (element) => {
-  const { quest, solution } = randomQuestion();
-  const answer = prompt(`${quest} is?`);
+  let newElement = element;
+  console.log(elementArr);
+  return newElement;
+};
 
-  if (answer == solution) {
-    console.log(`congrats: solution ${solution}, you typed ${answer}`);
-    element.classList.remove("gridSpecial");
-    element.classList.add("gridSpecialTwo");
+const waitToCheck = () => {
+  checkQuestion();
+};
 
-    if (element.classList.contains("gridSpecialThre")) {
-      element.classList.replace("gridSpecialThre", "gridSpecialTwo");
+const checkQuestion = () => {
+  let number = getValue();
+  let element = elementArr.slice(-1);
+  let = lastElement = element[0];
+  console.log(typeof lastElement);
+
+  waitToCheck;
+  console.log("doszło tu" + number + solution);
+  if (number == solution) {
+    lastElement.classList.remove("gridSpecial");
+    lastElement.classList.add("gridSpecialTwo");
+
+    if (lastElement.classList.contains("gridSpecialThre")) {
+      lastElement.classList.replace("gridSpecialThre", "gridSpecialTwo");
     }
     scores--;
     subtext.innerHTML = `Bugs Left: ${scores}`;
@@ -84,16 +113,18 @@ const showQuestion = (element) => {
       winGame();
     }
   } else {
-    console.log(`try again: solution ${solution}, you typed ${answer}`);
     wrongSolution();
-    element.classList.remove("gridSpecial");
-    element.classList.add("gridSpecialTwo");
+    console.log("wrong");
+    lastElement.classList.remove("gridSpecial");
+    lastElement.classList.add("gridSpecialTwo");
 
-    if (element.classList.contains("gridSpecialThre")) {
-      element.classList.replace("gridSpecialThre", "gridSpecialTwo");
+    if (lastElement.classList.contains("gridSpecialThre")) {
+      lastElement.classList.replace("gridSpecialThre", "gridSpecialTwo");
     }
   }
 };
+
+submit.addEventListener("click", checkQuestion);
 
 const winGame = () => {
   wining.style.display = "flex";
@@ -216,8 +247,17 @@ resetGameLost.addEventListener("click", () => {
 for (let i = 0; i < gridItems.length; i++) {
   let divElement = gridItems[i];
   let imgElement = divElement.querySelector("img");
+  const wegetables = document.querySelectorAll(".wegetables");
 
   divElement.addEventListener("click", function () {
+    console.log(divElement);
     imgElement.classList.add("falling");
+
+    if (divElement.classList.contains("gridSpecialTwo")) {
+      wegetables[i].addEventListener("animationend", () => {
+        console.log("endFaling");
+        document.deleateElement("span");
+      });
+    }
   });
 }
