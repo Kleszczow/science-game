@@ -8,7 +8,7 @@ const inputValue = document.querySelector("#inputValue");
 const questionP = document.querySelector(".questionP");
 const submit = document.querySelector("#submit");
 
-let data = { bugs: 19, rows: 4, cols: 5 };
+let data = { bugs: 10, rows: 4, cols: 5 };
 
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
@@ -44,25 +44,57 @@ let scores = bugs;
 subtext.innerHTML = `Bugs Left: ${scores}`;
 
 special(bugs);
-
 let elementArr = [];
+let answer = true;
+let fall = true;
+let oneAnswer = false;
 
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
-    if (element.classList.contains("gridSpecial")) {
-      elementArr.push(element);
-      showQuestion(element);
-      console.log(element);
-      questionP.innerHTML = quest;
-    }
-    if (element.classList.contains("gridSpecialThre")) {
-      elementArr.push(element);
-      showQuestion(element);
-      questionP.innerHTML = quest;
+    oneAnswer = true;
+    if (answer) {
+      fall = true;
+      answer = false;
+      console.log("chuj");
+      if (element.classList.contains("gridSpecial")) {
+        elementArr.push(element);
+        showQuestion(element);
+        nextQuest();
+      }
+      if (element.classList.contains("gridSpecialThre")) {
+        elementArr.push(element);
+        showQuestion(element);
+        nextQuest();
+      }
+      if (
+        !element.classList.contains("gridSpecial") &&
+        !element.classList.contains("gridSpecialTwo") &&
+        !element.classList.contains("gridSpecialThre")
+      ) {
+        answer = true;
+        fall = true;
+        oneAnswer = false;
+      }
+      if (
+        element.classList.contains("gridSpecial") &&
+        element.classList.contains("gridSpecialTwo") &&
+        element.classList.contains("gridSpecialThre")
+      ) {
+        answer = false;
+        fall = false;
+        oneAnswer = true;
+      }
     }
   });
 });
+
+const nextQuest = () => {
+  let newQuestion = randomQuestion();
+  quest = newQuestion.quest;
+  solution = newQuestion.solution;
+  questionP.innerHTML = quest;
+};
 
 const randomQuestion = () => {
   const allQuestion = [
@@ -72,10 +104,10 @@ const randomQuestion = () => {
   ];
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
   const newQuestion = allQuestion[randomNumber];
-  console.log(newQuestion);
   return newQuestion;
 };
-const { quest, solution } = randomQuestion();
+
+let { quest, solution } = randomQuestion();
 
 const getValue = () => {
   const value = inputValue.value;
@@ -84,7 +116,6 @@ const getValue = () => {
 
 const showQuestion = (element) => {
   let newElement = element;
-  console.log(elementArr);
   return newElement;
 };
 
@@ -95,36 +126,41 @@ const waitToCheck = () => {
 const checkQuestion = () => {
   let number = getValue();
   let element = elementArr.slice(-1);
-  let = lastElement = element[0];
-  console.log(typeof lastElement);
+  let lastElement = element[0];
+  if (number.length > 0) {
+    answer = true;
+    if (number == solution) {
+      lastElement.classList.remove("gridSpecial");
+      lastElement.classList.add("gridSpecialTwo");
 
-  waitToCheck;
-  console.log("doszło tu" + number + solution);
-  if (number == solution) {
-    lastElement.classList.remove("gridSpecial");
-    lastElement.classList.add("gridSpecialTwo");
-
-    if (lastElement.classList.contains("gridSpecialThre")) {
-      lastElement.classList.replace("gridSpecialThre", "gridSpecialTwo");
-    }
-    scores--;
-    subtext.innerHTML = `Bugs Left: ${scores}`;
-    if (scores == 0) {
-      winGame();
-    }
-  } else {
-    wrongSolution();
-    console.log("wrong");
-    lastElement.classList.remove("gridSpecial");
-    lastElement.classList.add("gridSpecialTwo");
-
-    if (lastElement.classList.contains("gridSpecialThre")) {
-      lastElement.classList.replace("gridSpecialThre", "gridSpecialTwo");
+      if (lastElement.classList.contains("gridSpecialThre")) {
+        lastElement.classList.replace("gridSpecialThre", "gridSpecialTwo");
+      }
+      scores--;
+      console.log("wygrana");
+      subtext.innerHTML = `Bugs Left: ${scores}`;
+      if (scores == 0) {
+        winGame();
+      }
+    } else {
+      wrongSolution();
+      console.log("wrong");
+      lastElement.classList.remove("gridSpecial");
+      lastElement.classList.add("gridSpecialTwo");
+      if (lastElement.classList.contains("gridSpecialThre")) {
+        lastElement.classList.replace("gridSpecialThre", "gridSpecialTwo");
+      }
     }
   }
 };
 
-submit.addEventListener("click", checkQuestion);
+submit.addEventListener("click", () => {
+  if (oneAnswer) {
+    oneAnswer = false;
+    console.log();
+    checkQuestion();
+  }
+});
 
 const winGame = () => {
   wining.style.display = "flex";
@@ -250,14 +286,16 @@ for (let i = 0; i < gridItems.length; i++) {
   const wegetables = document.querySelectorAll(".wegetables");
 
   divElement.addEventListener("click", function () {
-    console.log(divElement);
-    imgElement.classList.add("falling");
+    if (fall) {
+      fall = false;
+      console.log("cipa");
+      imgElement.classList.add("falling");
 
-    if (divElement.classList.contains("gridSpecialTwo")) {
-      wegetables[i].addEventListener("animationend", () => {
-        console.log("endFaling");
-        document.deleateElement("span");
-      });
+      if (divElement.classList.contains("gridSpecialTwo")) {
+        wegetables[i].addEventListener("animationend", () => {
+          document.deleateElement("span");
+        });
+      }
     }
   });
 }
