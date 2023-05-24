@@ -87,7 +87,8 @@ h1 {
   width: 30px;
 }
 
-.wegetables {
+.wegetables,
+.worm {
   width: 100%;
   aspect-ratio: 1;
 }
@@ -107,12 +108,19 @@ h1 {
   font-size: 40px;
   font-weight: bolder;
 }
-.imgSpan {
+.imgSpan,
+.imgSpanWorm {
   width: 100%;
-  height: auto;
+  aspect-ratio: 1;
 }
 .falling {
   animation: drop 1s forwards;
+}
+.rotateWorm {
+  animation: rotate 0.8s forwards linear;
+}
+.showItem {
+  animation: showWorm 0.3s forwards linear;
 }
 @keyframes drop {
   0% {
@@ -125,5 +133,26 @@ h1 {
     transform: translateY(300px);
     opacity: 0;
     pointer-events: none;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(720deg);
+    opacity: 0;
+    scale: 0.4;
+  }
+}
+@keyframes showWorm {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
   }
 }

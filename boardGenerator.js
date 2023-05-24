@@ -56,7 +56,6 @@ gridItems.forEach((element) => {
     if (answer) {
       fall = true;
       answer = false;
-      console.log("chuj");
       if (element.classList.contains("gridSpecial")) {
         elementArr.push(element);
         showQuestion(element);
@@ -137,14 +136,14 @@ const checkQuestion = () => {
         lastElement.classList.replace("gridSpecialThre", "gridSpecialTwo");
       }
       scores--;
-      console.log("wygrana");
       subtext.innerHTML = `Bugs Left: ${scores}`;
+
       if (scores == 0) {
         winGame();
       }
     } else {
       wrongSolution();
-      console.log("wrong");
+
       lastElement.classList.remove("gridSpecial");
       lastElement.classList.add("gridSpecialTwo");
       if (lastElement.classList.contains("gridSpecialThre")) {
@@ -152,12 +151,13 @@ const checkQuestion = () => {
       }
     }
   }
+  questionP.innerHTML = "find next worms!";
+  inputValue.value = "";
 };
 
 submit.addEventListener("click", () => {
   if (oneAnswer) {
     oneAnswer = false;
-    console.log();
     checkQuestion();
   }
 });
@@ -286,16 +286,38 @@ for (let i = 0; i < gridItems.length; i++) {
   const wegetables = document.querySelectorAll(".wegetables");
 
   divElement.addEventListener("click", function () {
+    const imgSpan = document.querySelectorAll(".imgSpan");
+    const worm = [
+      '<img class="worm" src="./pictures/aniamls/bug-svgrepo-com.svg" alt="worm"></img>',
+    ];
+
     if (fall) {
       fall = false;
-      console.log("cipa");
       imgElement.classList.add("falling");
-
-      if (divElement.classList.contains("gridSpecialTwo")) {
+      if (
+        divElement.classList.contains("gridSpecial") ||
+        divElement.classList.contains("gridSpecialThre")
+      ) {
         wegetables[i].addEventListener("animationend", () => {
-          document.deleateElement("span");
+          imgElement.classList.remove("falling");
+          imgSpan[i].classList.add("showItem");
+          imgSpan[i].innerHTML = worm[0];
         });
       }
     }
+
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.type === "childList" && mutation.target === subtext) {
+          imgSpan[i].classList.remove("showItem");
+          imgSpan[i].classList.add("rotateWorm");
+          console.log(wegetables[i]);
+        }
+      });
+    });
+
+    const config = { childList: true, subtree: true };
+
+    observer.observe(subtext, config);
   });
 }
