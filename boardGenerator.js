@@ -8,7 +8,7 @@ const inputValue = document.querySelector("#inputValue");
 const questionP = document.querySelector(".questionP");
 const submit = document.querySelector("#submit");
 
-let data = { bugs: 10, rows: 4, cols: 5 };
+let data = { bugs: 1, rows: 4, cols: 5 };
 
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
@@ -48,24 +48,25 @@ let elementArr = [];
 let answer = true;
 let fall = true;
 let oneAnswer = false;
-
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
+    console.log("nie działa");
     oneAnswer = true;
     if (answer) {
       fall = true;
       answer = false;
-      console.log("chuj");
       if (element.classList.contains("gridSpecial")) {
         elementArr.push(element);
         showQuestion(element);
         nextQuest();
+        console.log("ostatni ten tu");
       }
       if (element.classList.contains("gridSpecialThre")) {
         elementArr.push(element);
         showQuestion(element);
         nextQuest();
+        console.log("ostatni Ten");
       }
       if (
         !element.classList.contains("gridSpecial") &&
@@ -74,7 +75,8 @@ gridItems.forEach((element) => {
       ) {
         answer = true;
         fall = true;
-        oneAnswer = false;
+        oneAnswer = true;
+        console.log("ostatni");
       }
       if (
         element.classList.contains("gridSpecial") &&
@@ -137,14 +139,14 @@ const checkQuestion = () => {
         lastElement.classList.replace("gridSpecialThre", "gridSpecialTwo");
       }
       scores--;
-      console.log("wygrana");
       subtext.innerHTML = `Bugs Left: ${scores}`;
+
       if (scores == 0) {
         winGame();
       }
     } else {
       wrongSolution();
-      console.log("wrong");
+
       lastElement.classList.remove("gridSpecial");
       lastElement.classList.add("gridSpecialTwo");
       if (lastElement.classList.contains("gridSpecialThre")) {
@@ -152,12 +154,13 @@ const checkQuestion = () => {
       }
     }
   }
+  questionP.innerHTML = "find next worms!";
+  inputValue.value = "";
 };
 
 submit.addEventListener("click", () => {
   if (oneAnswer) {
     oneAnswer = false;
-    console.log();
     checkQuestion();
   }
 });
@@ -231,7 +234,6 @@ const generateImg = () => {
     y = cols * (j + 1);
   }
 };
-
 generateImg();
 
 resetGame.addEventListener("click", () => {
@@ -245,7 +247,10 @@ resetGame.addEventListener("click", () => {
     );
     wegetables[i].classList.remove("falling");
   }
+
+  resetImg();
   replayGameWin();
+  generateImg();
 });
 
 const replayGameWin = () => {
@@ -282,20 +287,51 @@ resetGameLost.addEventListener("click", () => {
 
 for (let i = 0; i < gridItems.length; i++) {
   let divElement = gridItems[i];
-  let imgElement = divElement.querySelector("img");
-  const wegetables = document.querySelectorAll(".wegetables");
-
   divElement.addEventListener("click", function () {
+    let divElement = gridItems[i];
+    let wegetables = document.querySelectorAll(".wegetables");
+    let imgElement = divElement.querySelector("img");
+    let imgSpan = document.querySelectorAll(".imgSpan");
+    const worm = [
+      '<img class="wegetables" src="./pictures/aniamls/bug-svgrepo-com.svg" alt="worm"></img>',
+    ];
+    console.log(imgElement);
     if (fall) {
+      console.log("tu juz nie  spasć");
       fall = false;
-      console.log("cipa");
       imgElement.classList.add("falling");
-
-      if (divElement.classList.contains("gridSpecialTwo")) {
+      if (
+        divElement.classList.contains("gridSpecial") ||
+        divElement.classList.contains("gridSpecialThre")
+      ) {
         wegetables[i].addEventListener("animationend", () => {
-          document.deleateElement("span");
+          console.log("tu chuj");
+          imgElement.classList.remove("falling");
+          imgSpan[i].classList.add("showItem");
+          imgSpan[i].innerHTML = worm[0];
         });
       }
     }
+
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.type === "childList" && mutation.target === subtext) {
+          imgSpan[i].classList.remove("showItem");
+          imgSpan[i].classList.add("rotateWorm");
+        }
+      });
+    });
+
+    const config = { childList: true, subtree: true };
+
+    observer.observe(subtext, config);
   });
 }
+const resetImg = () => {
+  const newSpan = document.querySelectorAll(".imgSpan");
+  const gridItems = document.querySelectorAll(".grid-item");
+  const wegetables = document.querySelectorAll(".wegetables");
+  for (let i = 0; i < gridItems.length; i++) {
+    newSpan[i].remove();
+  }
+};
