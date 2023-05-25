@@ -8,7 +8,7 @@ const inputValue = document.querySelector("#inputValue");
 const questionP = document.querySelector(".questionP");
 const submit = document.querySelector("#submit");
 
-let data = { bugs: 10, rows: 4, cols: 5 };
+let data = { bugs: 1, rows: 4, cols: 5 };
 
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
@@ -48,10 +48,10 @@ let elementArr = [];
 let answer = true;
 let fall = true;
 let oneAnswer = false;
-
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
+    console.log("nie działa");
     oneAnswer = true;
     if (answer) {
       fall = true;
@@ -60,11 +60,13 @@ gridItems.forEach((element) => {
         elementArr.push(element);
         showQuestion(element);
         nextQuest();
+        console.log("ostatni ten tu");
       }
       if (element.classList.contains("gridSpecialThre")) {
         elementArr.push(element);
         showQuestion(element);
         nextQuest();
+        console.log("ostatni Ten");
       }
       if (
         !element.classList.contains("gridSpecial") &&
@@ -73,7 +75,8 @@ gridItems.forEach((element) => {
       ) {
         answer = true;
         fall = true;
-        oneAnswer = false;
+        oneAnswer = true;
+        console.log("ostatni");
       }
       if (
         element.classList.contains("gridSpecial") &&
@@ -231,7 +234,6 @@ const generateImg = () => {
     y = cols * (j + 1);
   }
 };
-
 generateImg();
 
 resetGame.addEventListener("click", () => {
@@ -245,7 +247,10 @@ resetGame.addEventListener("click", () => {
     );
     wegetables[i].classList.remove("falling");
   }
+
+  resetImg();
   replayGameWin();
+  generateImg();
 });
 
 const replayGameWin = () => {
@@ -282,16 +287,17 @@ resetGameLost.addEventListener("click", () => {
 
 for (let i = 0; i < gridItems.length; i++) {
   let divElement = gridItems[i];
-  let imgElement = divElement.querySelector("img");
-  const wegetables = document.querySelectorAll(".wegetables");
-
   divElement.addEventListener("click", function () {
-    const imgSpan = document.querySelectorAll(".imgSpan");
+    let divElement = gridItems[i];
+    let wegetables = document.querySelectorAll(".wegetables");
+    let imgElement = divElement.querySelector("img");
+    let imgSpan = document.querySelectorAll(".imgSpan");
     const worm = [
-      '<img class="worm" src="./pictures/aniamls/bug-svgrepo-com.svg" alt="worm"></img>',
+      '<img class="wegetables" src="./pictures/aniamls/bug-svgrepo-com.svg" alt="worm"></img>',
     ];
-
+    console.log(imgElement);
     if (fall) {
+      console.log("tu juz nie  spasć");
       fall = false;
       imgElement.classList.add("falling");
       if (
@@ -299,6 +305,7 @@ for (let i = 0; i < gridItems.length; i++) {
         divElement.classList.contains("gridSpecialThre")
       ) {
         wegetables[i].addEventListener("animationend", () => {
+          console.log("tu chuj");
           imgElement.classList.remove("falling");
           imgSpan[i].classList.add("showItem");
           imgSpan[i].innerHTML = worm[0];
@@ -311,7 +318,6 @@ for (let i = 0; i < gridItems.length; i++) {
         if (mutation.type === "childList" && mutation.target === subtext) {
           imgSpan[i].classList.remove("showItem");
           imgSpan[i].classList.add("rotateWorm");
-          console.log(wegetables[i]);
         }
       });
     });
@@ -321,3 +327,11 @@ for (let i = 0; i < gridItems.length; i++) {
     observer.observe(subtext, config);
   });
 }
+const resetImg = () => {
+  const newSpan = document.querySelectorAll(".imgSpan");
+  const gridItems = document.querySelectorAll(".grid-item");
+  const wegetables = document.querySelectorAll(".wegetables");
+  for (let i = 0; i < gridItems.length; i++) {
+    newSpan[i].remove();
+  }
+};
