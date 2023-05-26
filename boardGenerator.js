@@ -107,15 +107,27 @@ const nextQuest = () => {
   questionP.innerHTML = quest;
 };
 
+const allQuestion = [];
+const finalLength = 10;
+
+for (let i = 1; i <= 10; i++) {
+  let j = 1;
+  if (allQuestion.length >= finalLength) {
+    j + 1;
+  }
+  for (j = 1; ; j++) {
+    const person = {};
+
+    person.quest = `${i} x ${j}`;
+    person.solution = i * j;
+    allQuestion.push(person);
+    if (j >= 10) {
+      break;
+    }
+  }
+}
+
 const randomQuestion = () => {
-  const allQuestion = [
-    { quest: "2 x 2", solution: "4" },
-    { quest: "6 x 6", solution: "36" },
-    { quest: "4 x 4", solution: "16" },
-    { quest: "6 x 2", solution: "12" },
-    { quest: "6 x 4", solution: "24" },
-    { quest: "3 x 4", solution: "12" },
-  ];
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
   const newQuestion = allQuestion[randomNumber];
   return newQuestion;
@@ -368,15 +380,3 @@ const resetImg = () => {
   }
   container.style.pointerEvents = "auto";
 };
-const tabliczkaMnozenia = [];
-
-for (let i = 1; i <= 10; i++) {
-  const row = [];
-  for (let j = 1; j <= 10; j++) {
-    const multiplication = i * j;
-    row.push(multiplication);
-  }
-  tabliczkaMnozenia.push(row);
-}
-
-console.log(tabliczkaMnozenia);
