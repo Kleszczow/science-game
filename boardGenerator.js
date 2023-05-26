@@ -8,8 +8,16 @@ const inputValue = document.querySelector("#inputValue");
 const questionP = document.querySelector(".questionP");
 const submit = document.querySelector("#submit");
 const inputFail = document.querySelector("#inputFail");
+const leaderboard = document.querySelector("#leaderboard");
+const rules = document.querySelector("#rules");
+const body = document.getElementsByTagName("body");
+const leaderboardDiv = document.querySelector(".leaderboardDiv");
+const emptyResolut = document.querySelector("#emptyResolut");
+const stats = document.querySelector(".stats");
 
-let data = { bugs: 3, rows: 4, cols: 5 };
+let data = { bugs: 1, rows: 4, cols: 5 };
+
+//creates any number of grids
 
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
@@ -21,9 +29,12 @@ const makeRows = (rows, cols) => {
 };
 
 let { cols, rows, bugs } = data;
+
 makeRows(rows, cols);
 
 let indexArr = [];
+
+//adds "infected" tiles to random tiles
 
 const special = (l) => {
   const gridItems = document.querySelectorAll(".grid-item");
@@ -55,9 +66,12 @@ winerBugs = false;
 container.style.pointerEvents = "auto";
 submit.disabled = true;
 
+//analyzes the clicked field
+
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
+    element.classList.add("clicked");
     oneAnswer = true;
     if (answer) {
       fall = true;
@@ -107,6 +121,8 @@ const nextQuest = () => {
   questionP.innerHTML = quest;
 };
 
+//generate mutation and push it to the array in object [{quest: '1 x 1', solution: 1}]
+
 const allQuestion = [];
 const finalLength = 10;
 
@@ -126,6 +142,8 @@ for (let i = 1; i <= 10; i++) {
     }
   }
 }
+
+//generate random quest from allQuestion
 
 const randomQuestion = () => {
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
@@ -148,6 +166,8 @@ const showQuestion = (element) => {
 const waitToCheck = () => {
   checkQuestion();
 };
+
+//checks whether the answer given in the input field is correct
 
 const checkQuestion = () => {
   let number = getValue();
@@ -218,7 +238,8 @@ const wrongSolution = () => {
     if (
       !item.classList.contains("gridSpecial") &&
       !item.classList.contains("gridSpecialTwo") &&
-      !item.classList.contains("gridSpecialThre")
+      !item.classList.contains("gridSpecialThre") &&
+      !item.classList.contains("clicked")
     ) {
       index.push(i);
     }
@@ -228,6 +249,9 @@ const wrongSolution = () => {
   return index;
 };
 
+//moves the infected field to another possible location after a wrong answer
+let allResoluts = [];
+
 const givClass = (index) => {
   const randomIndex = Math.floor(Math.random() * index.length);
   const position = index[randomIndex];
@@ -236,6 +260,9 @@ const givClass = (index) => {
     changePosition.classList.add("gridSpecialThre");
   } catch (error) {
     lostGame();
+    allResoluts.push(bugs);
+    console.log(allResoluts);
+    newResolut();
   }
 };
 
@@ -249,6 +276,8 @@ const imagesData = [
   '<img class="wegetables" src="./pictures/wegetables/onion-seasoning-vegetables-svgrepo-com.svg" alt="onion"></img>',
   '<img class="wegetables" src="./pictures/wegetables/cabbage-health-salad-svgrepo-com.svg" alt="cabbage"></img>',
 ];
+
+//generates random vegetables and enters them into grid fields
 
 const addImgToGrid = (i, y) => {
   const gridItems = document.querySelectorAll(".grid-item");
@@ -282,7 +311,8 @@ resetGame.addEventListener("click", () => {
     gridItems[i].classList.remove(
       "gridSpecial",
       "gridSpecialTwo",
-      "gridSpecialThre"
+      "gridSpecialThre",
+      "clicked"
     );
     wegetables[i].classList.remove("falling");
   }
@@ -321,7 +351,8 @@ resetGameLost.addEventListener("click", () => {
     gridItems[i].classList.remove(
       "gridSpecial",
       "gridSpecialTwo",
-      "gridSpecialThre"
+      "gridSpecialThre",
+      "clicked"
     );
     wegetables[i].classList.remove("falling");
   }
@@ -356,6 +387,8 @@ for (let i = 0; i < gridItems.length; i++) {
       }
     }
 
+    //after correcting the given answer, it removes the worm from the "infected" field
+
     const observer = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
         if (mutation.type === "childList" && mutation.target === subtext) {
@@ -372,6 +405,8 @@ for (let i = 0; i < gridItems.length; i++) {
   });
 }
 
+//regenerates vegetables after the end of the round
+
 const resetImg = () => {
   const newSpan = document.querySelectorAll(".imgSpan");
   const gridItems = document.querySelectorAll(".grid-item");
@@ -379,4 +414,36 @@ const resetImg = () => {
     newSpan[i].remove();
   }
   container.style.pointerEvents = "auto";
+};
+
+leaderboard.addEventListener("click", () => {
+  leaderboardDiv.classList.toggle("show");
+});
+
+//creating a scoreboard
+
+let allItems = 0;
+
+const newResolut = () => {
+  allItems++;
+  if (allResoluts.length > 0) {
+    allResoluts.forEach((element) => {
+      emptyResolut.style.display = "none";
+      let list = document.createElement("div");
+      stats.appendChild(list).classList = "newContent";
+      const currentDate = new Date();
+      const currentHour = currentDate.getHours();
+      const currentMinute = currentDate
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+
+      list.innerHTML = `You scored ${element} points at ${currentHour}:${currentMinute}!`;
+      allResoluts.length = 0;
+    });
+  }
+  if (allItems >= 7) {
+    const firstItem = document.querySelectorAll(".newContent");
+    firstItem[0].remove();
+  }
 };
