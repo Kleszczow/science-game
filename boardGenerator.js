@@ -7,8 +7,9 @@ const lost = document.querySelector(".lost");
 const inputValue = document.querySelector("#inputValue");
 const questionP = document.querySelector(".questionP");
 const submit = document.querySelector("#submit");
+const inputFail = document.querySelector("#inputFail");
 
-let data = { bugs: 1, rows: 4, cols: 5 };
+let data = { bugs: 3, rows: 4, cols: 5 };
 
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
@@ -44,14 +45,19 @@ let scores = bugs;
 subtext.innerHTML = `Bugs Left: ${scores}`;
 
 special(bugs);
+
 let elementArr = [];
 let answer = true;
 let fall = true;
 let oneAnswer = false;
+winerBugs = false;
+
+container.style.pointerEvents = "auto";
+submit.disabled = true;
+
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
-    console.log("nie działa");
     oneAnswer = true;
     if (answer) {
       fall = true;
@@ -60,13 +66,15 @@ gridItems.forEach((element) => {
         elementArr.push(element);
         showQuestion(element);
         nextQuest();
-        console.log("ostatni ten tu");
+        container.style.pointerEvents = "none";
+        submit.disabled = false;
       }
       if (element.classList.contains("gridSpecialThre")) {
         elementArr.push(element);
         showQuestion(element);
         nextQuest();
-        console.log("ostatni Ten");
+        container.style.pointerEvents = "none";
+        submit.disabled = false;
       }
       if (
         !element.classList.contains("gridSpecial") &&
@@ -76,7 +84,8 @@ gridItems.forEach((element) => {
         answer = true;
         fall = true;
         oneAnswer = true;
-        console.log("ostatni");
+        container.style.pointerEvents = "auto";
+        submit.disabled = true;
       }
       if (
         element.classList.contains("gridSpecial") &&
@@ -103,6 +112,9 @@ const randomQuestion = () => {
     { quest: "2 x 2", solution: "4" },
     { quest: "6 x 6", solution: "36" },
     { quest: "4 x 4", solution: "16" },
+    { quest: "6 x 2", solution: "12" },
+    { quest: "6 x 4", solution: "24" },
+    { quest: "3 x 4", solution: "12" },
   ];
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
   const newQuestion = allQuestion[randomNumber];
@@ -146,7 +158,7 @@ const checkQuestion = () => {
       }
     } else {
       wrongSolution();
-
+      container.style.pointerEvents = "auto";
       lastElement.classList.remove("gridSpecial");
       lastElement.classList.add("gridSpecialTwo");
       if (lastElement.classList.contains("gridSpecialThre")) {
@@ -160,13 +172,27 @@ const checkQuestion = () => {
 
 submit.addEventListener("click", () => {
   if (oneAnswer) {
-    oneAnswer = false;
-    checkQuestion();
+    if (inputValue.value.length === 0) {
+      console.log("Pole input jest puste!");
+      inputFail.innerHTML = "input is empty";
+      console.log(inputFail);
+    } else {
+      container.style.pointerEvents = "none";
+      inputFail.innerHTML = "";
+      oneAnswer = false;
+      checkQuestion();
+      submit.disabled = true;
+    }
   }
 });
 
 const winGame = () => {
-  wining.style.display = "flex";
+  console.log(winerBugs);
+  if (winerBugs) {
+    wining.style.display = "none";
+  } else {
+    wining.style.display = "flex";
+  }
 };
 
 const lostGame = () => {
@@ -234,6 +260,7 @@ const generateImg = () => {
     y = cols * (j + 1);
   }
 };
+
 generateImg();
 
 resetGame.addEventListener("click", () => {
@@ -260,6 +287,10 @@ const replayGameWin = () => {
   scores = bugs;
   wining.style.display = "none";
   subtext.innerHTML = `Bugs Left: ${scores}`;
+  console.log(bugs);
+  if (bugs > 19) {
+    winerBugs = true;
+  }
 };
 
 const replayGameLost = () => {
@@ -282,7 +313,9 @@ resetGameLost.addEventListener("click", () => {
     );
     wegetables[i].classList.remove("falling");
   }
+  resetImg();
   replayGameLost();
+  generateImg();
 });
 
 for (let i = 0; i < gridItems.length; i++) {
@@ -295,9 +328,7 @@ for (let i = 0; i < gridItems.length; i++) {
     const worm = [
       '<img class="wegetables" src="./pictures/aniamls/bug-svgrepo-com.svg" alt="worm"></img>',
     ];
-    console.log(imgElement);
     if (fall) {
-      console.log("tu juz nie  spasć");
       fall = false;
       imgElement.classList.add("falling");
       if (
@@ -305,7 +336,7 @@ for (let i = 0; i < gridItems.length; i++) {
         divElement.classList.contains("gridSpecialThre")
       ) {
         wegetables[i].addEventListener("animationend", () => {
-          console.log("tu chuj");
+          container.style.pointerEvents = "none";
           imgElement.classList.remove("falling");
           imgSpan[i].classList.add("showItem");
           imgSpan[i].innerHTML = worm[0];
@@ -316,6 +347,7 @@ for (let i = 0; i < gridItems.length; i++) {
     const observer = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
         if (mutation.type === "childList" && mutation.target === subtext) {
+          container.style.pointerEvents = "auto";
           imgSpan[i].classList.remove("showItem");
           imgSpan[i].classList.add("rotateWorm");
         }
@@ -327,11 +359,24 @@ for (let i = 0; i < gridItems.length; i++) {
     observer.observe(subtext, config);
   });
 }
+
 const resetImg = () => {
   const newSpan = document.querySelectorAll(".imgSpan");
   const gridItems = document.querySelectorAll(".grid-item");
-  const wegetables = document.querySelectorAll(".wegetables");
   for (let i = 0; i < gridItems.length; i++) {
     newSpan[i].remove();
   }
+  container.style.pointerEvents = "auto";
 };
+const tabliczkaMnozenia = [];
+
+for (let i = 1; i <= 10; i++) {
+  const row = [];
+  for (let j = 1; j <= 10; j++) {
+    const multiplication = i * j;
+    row.push(multiplication);
+  }
+  tabliczkaMnozenia.push(row);
+}
+
+console.log(tabliczkaMnozenia);
