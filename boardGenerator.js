@@ -14,6 +14,7 @@ const body = document.getElementsByTagName("body");
 const leaderboardDiv = document.querySelector(".leaderboardDiv");
 const emptyResolut = document.querySelector("#emptyResolut");
 const stats = document.querySelector(".stats");
+const carrotInHand = document.querySelector("#carrotInHand");
 
 let data = { bugs: 1, rows: 4, cols: 5 };
 
@@ -111,6 +112,10 @@ gridItems.forEach((element) => {
         oneAnswer = true;
       }
     }
+    if (element.classList.contains("gridSpecialTwo")) {
+      answer = true;
+      fall = false;
+    }
   });
 });
 
@@ -207,7 +212,6 @@ submit.addEventListener("click", () => {
     if (inputValue.value.length === 0) {
       console.log("Pole input jest puste!");
       inputFail.innerHTML = "input is empty";
-      console.log(inputFail);
     } else {
       container.style.pointerEvents = "none";
       inputFail.innerHTML = "";
@@ -219,7 +223,6 @@ submit.addEventListener("click", () => {
 });
 
 const winGame = () => {
-  console.log(winerBugs);
   if (winerBugs) {
     wining.style.display = "none";
   } else {
@@ -261,7 +264,6 @@ const givClass = (index) => {
   } catch (error) {
     lostGame();
     allResoluts.push(bugs);
-    console.log(allResoluts);
     newResolut();
   }
 };
@@ -329,7 +331,6 @@ const replayGameWin = () => {
   scores = bugs;
   wining.style.display = "none";
   subtext.innerHTML = `Bugs Left: ${scores}`;
-  console.log(bugs);
   if (bugs > 19) {
     winerBugs = true;
   }
@@ -447,3 +448,19 @@ const newResolut = () => {
     firstItem[0].remove();
   }
 };
+inputValue.addEventListener("input", () => {
+  const animations = [
+    "carotMoveOne",
+    "carotMoveTwo",
+    "carotMoveThre",
+    "carotMoveFour",
+  ];
+  const randomNumber = Math.floor(Math.random() * animations.length);
+  let randomAnimation = animations[randomNumber];
+  if (carrotInHand.classList.length <= 0) {
+    carrotInHand.classList.add(randomAnimation);
+    carrotInHand.addEventListener("animationend", () => {
+      carrotInHand.classList.remove(randomAnimation);
+    });
+  }
+});
