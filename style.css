@@ -53,7 +53,7 @@ main {
   height: 40%;
   background-color: brown;
   z-index: 5;
-  transform: translate(190%, 70%);
+  transform: translate(40%, 150%);
 }
 #inputValue {
   width: 100%;
@@ -66,7 +66,6 @@ h1 {
   color: aliceblue;
   font-size: 22px;
 }
-
 .grid-item {
   border: 1px solid #ddd;
   display: grid;
@@ -74,7 +73,6 @@ h1 {
   width: 100%;
   height: min-content;
 }
-
 .gridSpecial {
   background-color: red;
 }
@@ -87,7 +85,6 @@ h1 {
 .gridImg {
   width: 30px;
 }
-
 .wegetables,
 .worm {
   width: 100%;
@@ -128,8 +125,78 @@ h1 {
   border-radius: 5px;
   padding: 6px 10px;
 }
-
+.leaderboardDiv {
+  position: absolute;
+  width: 110%;
+  height: 100%;
+  background-color: #4f772d;
+  transform: translate(-5%, -100%);
+  z-index: 10;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+}
+#titleResolut {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 40px;
+  letter-spacing: 1.5px;
+}
+#emptyResolut {
+  padding-bottom: 40px;
+  font-size: 30px;
+}
+.stats {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.show {
+  display: flex;
+}
+.newContent {
+  background-color: #ddd;
+  width: 100%;
+  height: fit-content;
+  padding: 20px;
+}
+#farmer {
+  width: 100%;
+  height: 100%;
+}
+#carrotInHand {
+  transform: translate(10px);
+}
+.carotMoveOne {
+  animation: carrot 5s forwards;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.carotMoveTwo {
+  animation: carrotTwo 3s forwards;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.carotMoveThre {
+  animation: carrotThre 2s forwards;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.carotMoveFour {
+  animation: carrotFour 2s forwards;
+  transform-origin: center;
+  transform-box: fill-box;
+}
 /*ANIMATION CLASS*/
+
 .falling {
   animation: drop 1s forwards;
 }
@@ -171,5 +238,55 @@ h1 {
   100% {
     opacity: 1;
     scale: 1;
+  }
+}
+@keyframes carrot {
+  0% {
+    transform: rotate(0deg) translateX(10px);
+  }
+  25% {
+    transform: rotate(7deg) translateX(0);
+  }
+  50% {
+    transform: rotate(-4deg) translateX(20px);
+  }
+  75% {
+    transform: rotate(7deg) translateX(0);
+  }
+  100% {
+    transform: rotate(0deg) translateX(10px);
+  }
+}
+@keyframes carrotTwo {
+  0% {
+    transform: rotate(0deg) translateX(10px);
+  }
+  50% {
+    transform: rotate(7deg) translateX(0);
+  }
+  100% {
+    transform: rotate(0deg) translateX(10px);
+  }
+}
+@keyframes carrotThre {
+  0% {
+    transform: rotate(0deg) translateX(10px);
+  }
+  50% {
+    transform: rotate(-7deg) translateX(20px);
+  }
+  100% {
+    transform: rotate(0deg) translateX(10px);
+  }
+}
+@keyframes carrotFour {
+  0% {
+    transform: translate(10px, 0);
+  }
+  50% {
+    transform: translate(20px, 10px);
+  }
+  100% {
+    transform: translate(10px, 0);
   }
 }

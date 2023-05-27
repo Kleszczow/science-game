@@ -8,8 +8,17 @@ const inputValue = document.querySelector("#inputValue");
 const questionP = document.querySelector(".questionP");
 const submit = document.querySelector("#submit");
 const inputFail = document.querySelector("#inputFail");
+const leaderboard = document.querySelector("#leaderboard");
+const rules = document.querySelector("#rules");
+const body = document.getElementsByTagName("body");
+const leaderboardDiv = document.querySelector(".leaderboardDiv");
+const emptyResolut = document.querySelector("#emptyResolut");
+const stats = document.querySelector(".stats");
+const carrotInHand = document.querySelector("#carrotInHand");
 
-let data = { bugs: 3, rows: 4, cols: 5 };
+let data = { bugs: 1, rows: 4, cols: 5 };
+
+//creates any number of grids
 
 const makeRows = (rows, cols) => {
   container.style.setProperty("--grid-rows", rows);
@@ -21,9 +30,12 @@ const makeRows = (rows, cols) => {
 };
 
 let { cols, rows, bugs } = data;
+
 makeRows(rows, cols);
 
 let indexArr = [];
+
+//adds "infected" tiles to random tiles
 
 const special = (l) => {
   const gridItems = document.querySelectorAll(".grid-item");
@@ -55,9 +67,12 @@ winerBugs = false;
 container.style.pointerEvents = "auto";
 submit.disabled = true;
 
+//analyzes the clicked field
+
 const gridItems = document.querySelectorAll(".grid-item");
 gridItems.forEach((element) => {
   element.addEventListener("click", () => {
+    element.classList.add("clicked");
     oneAnswer = true;
     if (answer) {
       fall = true;
@@ -97,6 +112,10 @@ gridItems.forEach((element) => {
         oneAnswer = true;
       }
     }
+    if (element.classList.contains("gridSpecialTwo")) {
+      answer = true;
+      fall = false;
+    }
   });
 });
 
@@ -107,15 +126,31 @@ const nextQuest = () => {
   questionP.innerHTML = quest;
 };
 
+//generate mutation and push it to the array in object [{quest: '1 x 1', solution: 1}]
+
+const allQuestion = [];
+const finalLength = 10;
+
+for (let i = 1; i <= 10; i++) {
+  let j = 1;
+  if (allQuestion.length >= finalLength) {
+    j + 1;
+  }
+  for (j = 1; ; j++) {
+    const person = {};
+
+    person.quest = `${i} x ${j}`;
+    person.solution = i * j;
+    allQuestion.push(person);
+    if (j >= 10) {
+      break;
+    }
+  }
+}
+
+//generate random quest from allQuestion
+
 const randomQuestion = () => {
-  const allQuestion = [
-    { quest: "2 x 2", solution: "4" },
-    { quest: "6 x 6", solution: "36" },
-    { quest: "4 x 4", solution: "16" },
-    { quest: "6 x 2", solution: "12" },
-    { quest: "6 x 4", solution: "24" },
-    { quest: "3 x 4", solution: "12" },
-  ];
   const randomNumber = Math.floor(Math.random() * allQuestion.length);
   const newQuestion = allQuestion[randomNumber];
   return newQuestion;
@@ -136,6 +171,8 @@ const showQuestion = (element) => {
 const waitToCheck = () => {
   checkQuestion();
 };
+
+//checks whether the answer given in the input field is correct
 
 const checkQuestion = () => {
   let number = getValue();
@@ -175,7 +212,6 @@ submit.addEventListener("click", () => {
     if (inputValue.value.length === 0) {
       console.log("Pole input jest puste!");
       inputFail.innerHTML = "input is empty";
-      console.log(inputFail);
     } else {
       container.style.pointerEvents = "none";
       inputFail.innerHTML = "";
@@ -187,7 +223,6 @@ submit.addEventListener("click", () => {
 });
 
 const winGame = () => {
-  console.log(winerBugs);
   if (winerBugs) {
     wining.style.display = "none";
   } else {
@@ -206,7 +241,8 @@ const wrongSolution = () => {
     if (
       !item.classList.contains("gridSpecial") &&
       !item.classList.contains("gridSpecialTwo") &&
-      !item.classList.contains("gridSpecialThre")
+      !item.classList.contains("gridSpecialThre") &&
+      !item.classList.contains("clicked")
     ) {
       index.push(i);
     }
@@ -216,6 +252,9 @@ const wrongSolution = () => {
   return index;
 };
 
+//moves the infected field to another possible location after a wrong answer
+let allResoluts = [];
+
 const givClass = (index) => {
   const randomIndex = Math.floor(Math.random() * index.length);
   const position = index[randomIndex];
@@ -224,6 +263,8 @@ const givClass = (index) => {
     changePosition.classList.add("gridSpecialThre");
   } catch (error) {
     lostGame();
+    allResoluts.push(bugs);
+    newResolut();
   }
 };
 
@@ -237,6 +278,8 @@ const imagesData = [
   '<img class="wegetables" src="./pictures/wegetables/onion-seasoning-vegetables-svgrepo-com.svg" alt="onion"></img>',
   '<img class="wegetables" src="./pictures/wegetables/cabbage-health-salad-svgrepo-com.svg" alt="cabbage"></img>',
 ];
+
+//generates random vegetables and enters them into grid fields
 
 const addImgToGrid = (i, y) => {
   const gridItems = document.querySelectorAll(".grid-item");
@@ -270,7 +313,8 @@ resetGame.addEventListener("click", () => {
     gridItems[i].classList.remove(
       "gridSpecial",
       "gridSpecialTwo",
-      "gridSpecialThre"
+      "gridSpecialThre",
+      "clicked"
     );
     wegetables[i].classList.remove("falling");
   }
@@ -287,7 +331,6 @@ const replayGameWin = () => {
   scores = bugs;
   wining.style.display = "none";
   subtext.innerHTML = `Bugs Left: ${scores}`;
-  console.log(bugs);
   if (bugs > 19) {
     winerBugs = true;
   }
@@ -309,7 +352,8 @@ resetGameLost.addEventListener("click", () => {
     gridItems[i].classList.remove(
       "gridSpecial",
       "gridSpecialTwo",
-      "gridSpecialThre"
+      "gridSpecialThre",
+      "clicked"
     );
     wegetables[i].classList.remove("falling");
   }
@@ -344,6 +388,8 @@ for (let i = 0; i < gridItems.length; i++) {
       }
     }
 
+    //after correcting the given answer, it removes the worm from the "infected" field
+
     const observer = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
         if (mutation.type === "childList" && mutation.target === subtext) {
@@ -360,6 +406,8 @@ for (let i = 0; i < gridItems.length; i++) {
   });
 }
 
+//regenerates vegetables after the end of the round
+
 const resetImg = () => {
   const newSpan = document.querySelectorAll(".imgSpan");
   const gridItems = document.querySelectorAll(".grid-item");
@@ -368,15 +416,51 @@ const resetImg = () => {
   }
   container.style.pointerEvents = "auto";
 };
-const tabliczkaMnozenia = [];
 
-for (let i = 1; i <= 10; i++) {
-  const row = [];
-  for (let j = 1; j <= 10; j++) {
-    const multiplication = i * j;
-    row.push(multiplication);
+leaderboard.addEventListener("click", () => {
+  leaderboardDiv.classList.toggle("show");
+});
+
+//creating a scoreboard
+
+let allItems = 0;
+
+const newResolut = () => {
+  allItems++;
+  if (allResoluts.length > 0) {
+    allResoluts.forEach((element) => {
+      emptyResolut.style.display = "none";
+      let list = document.createElement("div");
+      stats.appendChild(list).classList = "newContent";
+      const currentDate = new Date();
+      const currentHour = currentDate.getHours();
+      const currentMinute = currentDate
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+
+      list.innerHTML = `You scored ${element} points at ${currentHour}:${currentMinute}!`;
+      allResoluts.length = 0;
+    });
   }
-  tabliczkaMnozenia.push(row);
-}
-
-console.log(tabliczkaMnozenia);
+  if (allItems >= 7) {
+    const firstItem = document.querySelectorAll(".newContent");
+    firstItem[0].remove();
+  }
+};
+inputValue.addEventListener("input", () => {
+  const animations = [
+    "carotMoveOne",
+    "carotMoveTwo",
+    "carotMoveThre",
+    "carotMoveFour",
+  ];
+  const randomNumber = Math.floor(Math.random() * animations.length);
+  let randomAnimation = animations[randomNumber];
+  if (carrotInHand.classList.length <= 0) {
+    carrotInHand.classList.add(randomAnimation);
+    carrotInHand.addEventListener("animationend", () => {
+      carrotInHand.classList.remove(randomAnimation);
+    });
+  }
+});
