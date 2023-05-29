@@ -15,15 +15,15 @@
   </head>
   <body>
     <main>
-      <div class="wining">
+      <div class="wining fadeIn">
         <p id="winText">YOU WIN</p>
-        <button id="resetGame">RESET GAME</button>
+        <button id="resetGame">NEXT RUND</button>
       </div>
       <div class="lost">
         <p id="lostText">YOU LOST</p>
         <button id="resetGameLost">RESET GAME</button>
       </div>
-      <h1 class="title">Help farmer and learn</h1>
+      <h1 class="title">Help the farmer and learn math</h1>
       <div class="subtext">Bugs Left: 10</div>
       <div class="board">
         <div class="container"></div>
@@ -54,11 +54,21 @@
           <p id="emptyResolut">Nothing is here yet, finish your first game.</p>
         </div>
       </div>
+      <div class="staisicMath">
+        <p id="titleStats">Stats</p>
+          <div class="statisticWorng">
+            <p id="emptyStats">
+              This is where the tasks you did wrong are shown
+            </p>
+          </div>
+        </div>
+      </div>
     </main>
 
     <div id="buttons">
       <button id="leaderboard">LEADERBOARD</button>
       <button id="rules">RULES</button>
+      <button id="statsistic">STATISCIT</button>
     </div>
     <script src="boardGenerator.js"></script>
   </body>
