@@ -15,6 +15,10 @@ const leaderboardDiv = document.querySelector(".leaderboardDiv");
 const emptyResolut = document.querySelector("#emptyResolut");
 const stats = document.querySelector(".stats");
 const carrotInHand = document.querySelector("#carrotInHand");
+const statsistic = document.querySelector("#statsistic");
+const staisicDiv = document.querySelector(".staisicMath");
+const statisticWorng = document.querySelector(".statisticWorng");
+const emptyStats = document.querySelector("#emptyStats");
 
 let data = { bugs: 1, rows: 4, cols: 5 };
 
@@ -192,9 +196,11 @@ const checkQuestion = () => {
 
       if (scores == 0) {
         winGame();
+        wining.classList.add("fadeIn");
       }
     } else {
       wrongSolution();
+      getStatistic(number);
       container.style.pointerEvents = "auto";
       lastElement.classList.remove("gridSpecial");
       lastElement.classList.add("gridSpecialTwo");
@@ -207,7 +213,7 @@ const checkQuestion = () => {
   inputValue.value = "";
 };
 
-submit.addEventListener("click", () => {
+const submnitFuncion = () => {
   if (oneAnswer) {
     if (inputValue.value.length === 0) {
       console.log("Pole input jest puste!");
@@ -219,6 +225,13 @@ submit.addEventListener("click", () => {
       checkQuestion();
       submit.disabled = true;
     }
+  }
+};
+
+submit.addEventListener("click", submnitFuncion);
+inputValue.addEventListener("keydown", (e) => {
+  if (e.keyCode === 13) {
+    submnitFuncion();
   }
 });
 
@@ -343,6 +356,7 @@ const replayGameLost = () => {
   scores = bugs;
   subtext.innerHTML = `Bugs Left: ${scores}`;
   lost.style.display = "none";
+  leaderboard.style.display = "block";
 };
 
 resetGameLost.addEventListener("click", () => {
@@ -448,6 +462,9 @@ const newResolut = () => {
     firstItem[0].remove();
   }
 };
+
+//Adds animations to the farmer
+
 inputValue.addEventListener("input", () => {
   const animations = [
     "carotMoveOne",
@@ -463,4 +480,43 @@ inputValue.addEventListener("input", () => {
       carrotInHand.classList.remove(randomAnimation);
     });
   }
+});
+
+//Updating stats
+
+const wrongAnsewer = [];
+
+const getStatistic = (number) => {
+  const wrongScores = {};
+  wrongScores.question = quest;
+  wrongScores.userAnswer = number;
+  wrongScores.corectAnswer = solution;
+  wrongAnsewer.push(wrongScores);
+  console.log(wrongAnsewer);
+};
+
+const showStatistic = () => {
+  if (wrongAnsewer.length > 0) {
+    emptyStats.style.display = "none";
+
+    let wrongAnswerList = document.querySelector(".newContent");
+
+    if (!wrongAnswerList) {
+      wrongAnswerList = document.createElement("div");
+      statisticWorng.appendChild(wrongAnswerList).classList = "newContent";
+    }
+
+    wrongAnswerList.innerHTML = "";
+
+    wrongAnsewer.forEach((element) => {
+      let wrongAnswerItem = document.createElement("div");
+      wrongAnswerList.appendChild(wrongAnswerItem);
+      wrongAnswerItem.innerHTML = `The question is <span id="questSpan">${element.question}</span> correct answer it <span id="corectSpan">${element.corectAnswer}</span> and your answer is <span id="incorectSpan">${element.userAnswer}</span>`;
+    });
+  }
+};
+
+statsistic.addEventListener("click", () => {
+  staisicDiv.classList.toggle("show");
+  showStatistic();
 });
