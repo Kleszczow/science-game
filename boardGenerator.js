@@ -19,6 +19,12 @@ const statsistic = document.querySelector("#statsistic");
 const staisicDiv = document.querySelector(".staisicMath");
 const statisticWorng = document.querySelector(".statisticWorng");
 const emptyStats = document.querySelector("#emptyStats");
+const rulesDiv = document.querySelector(".rulesDiv");
+const reportBug = document.querySelector("#reportBug");
+const main = document.querySelector("body > main");
+const buttons = document.querySelector("#buttons");
+const bugDiv = document.querySelector(".bugDiv");
+const leadybird = document.querySelector(".leadybird");
 
 let data = { bugs: 1, rows: 4, cols: 5 };
 
@@ -182,6 +188,7 @@ const checkQuestion = () => {
   let number = getValue();
   let element = elementArr.slice(-1);
   let lastElement = element[0];
+  container.style.pointerEvents = "auto";
   if (number.length > 0) {
     answer = true;
     if (number == solution) {
@@ -219,7 +226,7 @@ const submnitFuncion = () => {
       console.log("Pole input jest puste!");
       inputFail.innerHTML = "input is empty";
     } else {
-      container.style.pointerEvents = "none";
+      container.style.pointerEvents = "auto";
       inputFail.innerHTML = "";
       oneAnswer = false;
       checkQuestion();
@@ -482,6 +489,20 @@ inputValue.addEventListener("input", () => {
   }
 });
 
+//animation of bug
+
+setInterval(() => {
+  const animationsBug = ["leadybirdOne", "leadybirdTwo"];
+
+  const randomNumber = Math.floor(Math.random() * animationsBug.length);
+  let randomAnimation = animationsBug[randomNumber];
+  console.log("siamnko");
+  leadybird.classList.add(randomAnimation);
+  leadybird.addEventListener("animationend", () => {
+    leadybird.classList.remove(randomAnimation);
+  });
+}, 25000);
+
 //Updating stats
 
 const wrongAnsewer = [];
@@ -513,10 +534,24 @@ const showStatistic = () => {
       wrongAnswerList.appendChild(wrongAnswerItem);
       wrongAnswerItem.innerHTML = `The question is <span id="questSpan">${element.question}</span> correct answer it <span id="corectSpan">${element.corectAnswer}</span> and your answer is <span id="incorectSpan">${element.userAnswer}</span>`;
     });
+    const divHeight = staisicDiv.offsetHeight;
+    const answerDiv = wrongAnswerList.offsetHeight;
+    if (answerDiv > divHeight - 100) {
+      wrongAnswerList.style.overflow = "auto";
+    }
   }
 };
 
 statsistic.addEventListener("click", () => {
   staisicDiv.classList.toggle("show");
   showStatistic();
+});
+
+rules.addEventListener("click", () => {
+  rulesDiv.classList.toggle("show");
+});
+reportBug.addEventListener("click", () => {
+  main.classList.toggle("hide");
+  buttons.style.display = "none";
+  bugDiv.classList.toggle("show");
 });
