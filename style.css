@@ -30,6 +30,12 @@ h1 {
   color: aliceblue;
   text-shadow: 0px 0px 3px rgba(66, 68, 90, 1);
 }
+ul,
+#emptyStats {
+  color: #ddd;
+  text-shadow: 0px 0px 3px rgba(66, 68, 90, 1);
+  font-size: 20px;
+}
 .board {
   display: flex;
   align-items: center;
@@ -194,7 +200,7 @@ h1 {
   aspect-ratio: 1;
 }
 #buttons {
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: end;
   gap: 20px;
@@ -213,21 +219,28 @@ h1 {
   display: none;
 }
 .leaderboardDiv,
-.staisicMath {
+.staisicMath,
+.rulesDiv {
   position: absolute;
   width: 110%;
   height: 100%;
-  background-color: #4f772d;
+  background-image: url(./pictures/background/wood.svg);
+  background-size: cover;
   transform: translate(-5%, -100%);
   z-index: 10;
   display: none;
   flex-direction: column;
   align-items: center;
+
   border: 4px solid black;
   border-radius: 20px;
 }
+.rulesDiv {
+  justify-content: space-between;
+}
 #titleResolut,
-#titleStats {
+#titleStats,
+#titleRules {
   width: 100%;
   height: 20%;
   display: flex;
@@ -236,10 +249,29 @@ h1 {
   font-weight: 500;
   font-size: 40px;
   letter-spacing: 1.5px;
+  color: #ddd;
 }
 #emptyResolut {
   padding-bottom: 40px;
   font-size: 30px;
+}
+.egzamplyRules {
+  display: flex;
+  gap: 100px;
+  text-align: center;
+}
+figcaption {
+  color: #ddd;
+}
+#reportBug {
+  background-color: transparent;
+  border: none;
+  transition: all 0.275s;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+#reportBug:hover {
+  color: red;
 }
 .stats {
   height: 80%;
@@ -249,14 +281,22 @@ h1 {
   align-items: center;
   gap: 10px;
 }
-#questSpan {
-  color: green;
+#questSpan,
+#corectSpan,
+#incorectSpan {
+  font-weight: 600;
 }
 #corectSpan {
-  color: blue;
+  color: green;
 }
 #incorectSpan {
   color: red;
+}
+
+.leadybird {
+  position: absolute;
+  width: 5%;
+  transform: translate(-326px, -70px) rotate(0);
 }
 .show {
   display: flex;
@@ -281,6 +321,21 @@ h1 {
   height: min-content;
   width: 20%;
 }
+.bugDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+#contactform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+/*ANIMATION CLASS*/
 .carotMoveOne {
   animation: carrot 5s forwards;
 }
@@ -299,7 +354,12 @@ h1 {
   transform-origin: center;
   transform-box: fill-box;
 }
-/*ANIMATION CLASS*/
+.leadybirdOne {
+  animation: leadybirdOne 3s linear;
+}
+.leadybirdTwo {
+  animation: leadybirdTwo 3s linear;
+}
 .fadeIn {
   animation: fadeIn 500ms forwards;
 }
@@ -414,5 +474,65 @@ h1 {
   }
   to {
     opacity: 0;
+  }
+}
+@keyframes leadybirdOne {
+  0% {
+    transform: translate(-426px, -70px);
+  }
+  40% {
+    transform: translate(-46px, -50px) rotate(20deg);
+  }
+  70% {
+    transform: translate(60px, 50px) rotate(40deg);
+  }
+  100% {
+    transform: translate(150px, 160px) rotate(70deg);
+  }
+}
+@keyframes leadybirdTwo {
+  0% {
+    transform: translate(406px, 160px);
+  }
+  40% {
+    transform: translate(506px, 50px) rotate(-20deg);
+  }
+  70% {
+    transform: translate(700px, 50px) rotate(30deg);
+  }
+  100% {
+    transform: translate(850px, 170px) rotate(50deg);
+  }
+}
+
+@media (width < 700px) {
+  body {
+    overflow: auto;
+    margin-top: 100px;
+  }
+  .board {
+    display: flex;
+    flex-direction: column;
+    height: min-content;
+    gap: 15px;
+  }
+  #farmer {
+    display: none;
+    height: 0;
+  }
+  .farmer {
+    height: min-content;
+  }
+  #carrotInHand {
+    display: none;
+  }
+
+  .sign {
+    position: relative;
+    transform: translate(0, 0);
+    width: 100%;
+  }
+  #buttons {
+    justify-content: center;
   }
 }
