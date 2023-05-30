@@ -496,7 +496,6 @@ setInterval(() => {
 
   const randomNumber = Math.floor(Math.random() * animationsBug.length);
   let randomAnimation = animationsBug[randomNumber];
-  console.log("siamnko");
   leadybird.classList.add(randomAnimation);
   leadybird.addEventListener("animationend", () => {
     leadybird.classList.remove(randomAnimation);
@@ -513,7 +512,6 @@ const getStatistic = (number) => {
   wrongScores.userAnswer = number;
   wrongScores.corectAnswer = solution;
   wrongAnsewer.push(wrongScores);
-  console.log(wrongAnsewer);
 };
 
 const showStatistic = () => {
