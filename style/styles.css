@@ -1,0 +1,276 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  height: 100vh;
+  padding: 40px 40px 20px 40px;
+  overflow: hidden;
+}
+body button {
+  background: #96642c;
+  transition: all 0.3s;
+}
+body button:hover {
+  background: #724e24;
+}
+body #buttons {
+  width: 80%;
+  display: flex;
+  justify-content: end;
+  gap: 20px;
+  margin-top: 20px;
+}
+body #buttons #leaderboard,
+body #buttons #rules,
+body #buttons #statsistic {
+  border-radius: 5px;
+  padding: 6px 10px;
+  color: #ddd;
+  border: 3px solid black;
+}
+body #buttons #leaderboard {
+  display: none;
+}
+
+main {
+  position: relative;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+main h1 {
+  color: aliceblue;
+  text-shadow: 0px 0px 3px rgb(66, 68, 90);
+}
+main .subtext {
+  color: #ddd;
+  font-size: 22px;
+  margin-bottom: 10px;
+  text-shadow: 0px 0px 3px rgb(66, 68, 90);
+}
+main ul,
+main #emptyStats {
+  color: #ddd;
+  text-shadow: 0px 0px 3px rgb(66, 68, 90);
+  font-size: 20px;
+}
+main .board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 50px;
+}
+main .container {
+  width: 500px;
+  aspect-ratio: 1;
+  padding: 30px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 4px solid black;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+main .farmer img,
+main .farmer {
+  position: relative;
+  height: 500px;
+  z-index: 4;
+}
+main #winText,
+main #lostText {
+  color: #ddd;
+  font-size: 50px;
+  font-weight: bolder;
+  text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+main #resetGame, main #resetGameLost {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 3px solid black;
+  font-weight: 600;
+  transition: all 285ms;
+}
+main #resetGame:hover, main #resetGameLost:hover {
+  background-color: #724e24;
+  color: #ddd;
+}
+main #resetGameLost:hover {
+  background-color: red;
+  color: #ddd;
+}
+main #lostText {
+  color: red;
+}
+main .sign {
+  position: absolute;
+  width: 36%;
+  height: 44%;
+  padding: 15px;
+  z-index: 5;
+  transform: translate(40%, 128%);
+  border: 4px solid black;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+main .sign #inputValue {
+  width: 100%;
+  padding: 10px;
+  background-color: transparent;
+  border: 3px solid black;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+main .sign #inputValue::-moz-placeholder {
+  color: #ddd;
+}
+main .sign #inputValue::placeholder {
+  color: #ddd;
+}
+main .sign .quest {
+  display: grid;
+  place-content: center;
+  gap: 10px;
+}
+main .sign .questionP {
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: #ddd;
+  font-weight: 600;
+  font-size: 18px;
+  min-height: 60px;
+}
+main .sign #inputFail {
+  color: #ddd;
+  text-align: center;
+  margin-bottom: 10px;
+}
+main .sign #submit {
+  background-color: #ddd;
+  padding: 6px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 3px solid black;
+  font-weight: 600;
+}
+main .wining,
+main .lost {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  border-radius: 20px;
+  border: 4px solid black;
+  gap: 20px;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+main #titleResolut,
+main #titleStats,
+main #titleRules {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  font-weight: 500;
+  font-size: 40px;
+  letter-spacing: 1.5px;
+  color: #ddd;
+}
+main #emptyResolut {
+  padding-bottom: 40px;
+  font-size: 30px;
+}
+main .egzamplyRules {
+  display: flex;
+  gap: 100px;
+  text-align: center;
+}
+main figcaption {
+  color: #ddd;
+}
+main #reportBug {
+  background-color: transparent;
+  border: none;
+  transition: all 0.275s;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+main #reportBug:hover {
+  color: red;
+}
+main .stats {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+main #questSpan,
+main #corectSpan,
+main #incorectSpan {
+  font-weight: 600;
+}
+main #corectSpan {
+  color: green;
+}
+main #incorectSpan {
+  color: red;
+}
+main .leadybird {
+  position: absolute;
+  width: 5%;
+  transform: translate(-326px, -70px) rotate(0);
+}
+main .show {
+  display: flex;
+}
+main .hide {
+  display: none;
+}
+main .newContent {
+  background-color: #ddd;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 20px;
+}
+main #farmer {
+  width: 100%;
+  height: 100%;
+}
+main #carrotInHand {
+  position: absolute;
+  top: 17%;
+  left: 3%;
+  height: -moz-min-content;
+  height: min-content;
+  width: 20%;
+}
+main .bugDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+main #contactform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}/*# sourceMappingURL=styles.css.map */
