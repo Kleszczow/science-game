@@ -233,7 +233,9 @@ main #incorectSpan {
 main .leadybird {
   position: absolute;
   width: 5%;
-  transform: translate(-326px, -70px) rotate(0);
+  left: -50px;
+  bottom: 70px;
+  transform: translate(0, 0) rotate(0);
 }
 main .show {
   display: flex;
@@ -273,4 +275,61 @@ main #contactform {
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.bugDiv {
+  position: relative;
+  display: none;
+  background-image: url(../pictures/background/wood2.svg);
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.bugDiv #closeBugDiv {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border-radius: 100%;
+  width: 30px;
+  aspect-ratio: 1;
+  background-color: #ff211d;
+  border: 2px solid black;
+  font-weight: 600;
+}
+.bugDiv #formMail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+.bugDiv #formMail #send {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 3px solid black;
+}
+.bugDiv #formMail input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 3px solid black;
+  outline: none;
+}
+.bugDiv #formMail input:focus {
+  border: 3px solid #573e1e;
+}
+.bugDiv #formMail input:hover {
+  border: 3px solid #694b23;
+}
+.bugDiv #formMail textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 3px solid black;
+  outline: none;
+}
+.bugDiv #formMail textarea:focus {
+  border: 3px solid #573e1e;
+}
+.bugDiv #formMail textarea:hover {
+  border: 3px solid #694b23;
 }/*# sourceMappingURL=styles.css.map */

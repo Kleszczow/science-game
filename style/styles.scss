@@ -1,9 +1,15 @@
 $buttons: #96642c;
 $buttonsHover: #724e24;
 $textcolor: #ddd;
+$inputHover: #694b23;
+$inputFocus: #573e1e;
 $font: "Poppins", sans-serif;
+$borderLight: 2px solid black;
 $border: 3px solid black;
 $borderHeavy: 4px solid black;
+$borderRadiusLight: 5px;
+$borderRadiusMedium: 10px;
+$borderRadiusHeavy: 20px;
 $fontShadow: 0px 0px 3px rgba(66, 68, 90, 1);
 $smallShadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 $bigShadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
@@ -22,3 +28,4 @@ $bigShadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
 
 @import "./body";
 @import "_main.scss";
+@import "_form.scss";

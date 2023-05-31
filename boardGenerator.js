@@ -25,6 +25,7 @@ const main = document.querySelector("body > main");
 const buttons = document.querySelector("#buttons");
 const bugDiv = document.querySelector(".bugDiv");
 const leadybird = document.querySelector(".leadybird");
+const closeBugDiv = document.querySelector("#closeBugDiv");
 
 let data = { bugs: 1, rows: 4, cols: 5 };
 
@@ -549,7 +550,12 @@ rules.addEventListener("click", () => {
   rulesDiv.classList.toggle("show");
 });
 reportBug.addEventListener("click", () => {
-  main.classList.toggle("hide");
+  main.style.display = "none";
   buttons.style.display = "none";
-  bugDiv.classList.toggle("show");
+  bugDiv.style.display = "flex";
+});
+closeBugDiv.addEventListener("click", () => {
+  main.style.display = "";
+  buttons.style.display = "flex";
+  bugDiv.style.display = "none";
 });
