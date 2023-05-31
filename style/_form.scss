@@ -1,0 +1,54 @@
+.bugDiv {
+  position: relative;
+  display: none;
+  background-image: url(../pictures/background/wood2.svg);
+  padding: 50px;
+  border-radius: $borderRadiusMedium;
+  box-shadow: $bigShadow;
+  #closeBugDiv {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border-radius: 100%;
+    width: 30px;
+    aspect-ratio: 1;
+    background-color: #ff211d;
+    border: $borderLight;
+    font-weight: 600;
+  }
+  #formMail {
+    @include flexCenter(column);
+    gap: 16px;
+
+    #send {
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: $border;
+    }
+    input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: $borderRadiusLight;
+      border: $border;
+      outline: none;
+      &:focus {
+        border: 3px solid $inputFocus;
+      }
+      &:hover {
+        border: 3px solid $inputHover;
+      }
+    }
+    textarea {
+      padding: 10px;
+      border-radius: $borderRadiusLight;
+      border: $border;
+      outline: none;
+      &:focus {
+        border: 3px solid $inputFocus;
+      }
+      &:hover {
+        border: 3px solid $inputHover;
+      }
+    }
+  }
+}

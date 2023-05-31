@@ -225,7 +225,7 @@ body {
 }
 @keyframes leadybirdOne {
   0% {
-    transform: translate(-426px, -70px);
+    transform: translate(-526px, -70px);
   }
   40% {
     transform: translate(-46px, -50px) rotate(20deg);
