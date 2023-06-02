@@ -8,12 +8,6 @@
   --grid-rows: 1;
 }
 
-body {
-  background-image: url(./pictures/background/1546253828.svg);
-  background-size: cover;
-  background-position: 50% 70%;
-}
-
 .container {
   display: grid;
   grid-gap: 0.4em;
@@ -225,16 +219,16 @@ body {
 }
 @keyframes leadybirdOne {
   0% {
-    transform: translate(-526px, -70px);
+    transform: translate(0, 0) rotate(-50deg);
   }
   40% {
-    transform: translate(-46px, -50px) rotate(20deg);
+    transform: translate(120px, -50px) rotate(40deg);
   }
   70% {
-    transform: translate(60px, 50px) rotate(40deg);
+    transform: translate(200px, 50px) rotate(50deg);
   }
   100% {
-    transform: translate(150px, 160px) rotate(70deg);
+    transform: translate(300px, 200px) rotate(70deg);
   }
 }
 @keyframes leadybirdTwo {
