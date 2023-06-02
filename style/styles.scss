@@ -25,7 +25,13 @@ $bigShadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
   display: grid;
   place-content: center;
 }
+@mixin backgroundPage {
+  background-image: url(../pictures/background/1546253828.svg);
+  background-size: cover;
+  background-position: 50% 70%;
+}
 
 @import "./body";
 @import "_main.scss";
 @import "_form.scss";
+@import "_thanks.scss";

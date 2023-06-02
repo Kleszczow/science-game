@@ -26,6 +26,7 @@ const buttons = document.querySelector("#buttons");
 const bugDiv = document.querySelector(".bugDiv");
 const leadybird = document.querySelector(".leadybird");
 const closeBugDiv = document.querySelector("#closeBugDiv");
+const send = document.querySelector("#send");
 
 let data = { bugs: 1, rows: 4, cols: 5 };
 
@@ -558,4 +559,8 @@ closeBugDiv.addEventListener("click", () => {
   main.style.display = "";
   buttons.style.display = "flex";
   bugDiv.style.display = "none";
+});
+
+send.addEventListener("click", () => {
+  window.location.href = "./pages/thankYou.html";
 });

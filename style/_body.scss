@@ -1,5 +1,6 @@
 body {
   @include flexCenter(column);
+  @include backgroundPage;
   font-family: $font;
   width: 100%;
   height: 100vh;
@@ -29,5 +30,11 @@ body {
     #leaderboard {
       display: none;
     }
+  }
+  .leadybird {
+    position: absolute;
+    width: 40px;
+    left: -5%;
+    bottom: 70px;
   }
 }

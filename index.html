@@ -86,7 +86,6 @@
             <button id="reportBug">🐛 REPORT BUG 🐛</button>
           </div>
       </div>
-      <img class="leadybird" src="./pictures/aniamls/leadybird.svg">
     </main>
     <div id="buttons">
       <button id="leaderboard">LEADERBOARD</button>
@@ -95,13 +94,16 @@
     </div>
     <div class="bugDiv">
         <button id="closeBugDiv">X</button>
-      <form action="#" id="formMail">
-        <input type="text" placeholder="Nickname">
-        <input type="text" placeholder="e-mail">
-        <textarea cols="30" rows="10" placeholder="Describe the bug"></textarea>
-        <button id="send">SEND</button>
-      </form>
+   
+      <form method="POST"  id="formMail" action="https://formsubmit.co/tymekslomski@gmail.com" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="name/nickname" required>
+        <input type="hidden" name="_next" value="https://kleszczow.github.io/thankYou/">
+        <input type="email" name="email" placeholder="Your email">
+        <textarea  rows="10" cols="40" name="message" placeholder="Details of problem"></textarea>
+        <button type="submit" id="send">SEND</button>
+    </form>
     </div>
+    <img class="leadybird" src="./pictures/aniamls/leadybird.svg">
     <script src="boardGenerator.js"></script>
   </body>
 </html>
