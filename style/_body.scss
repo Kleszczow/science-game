@@ -21,11 +21,14 @@ body {
     margin-top: 20px;
     #leaderboard,
     #rules,
-    #statsistic {
+    #statsistic,
+    #demonstration {
       border-radius: 5px;
       padding: 6px 10px;
       color: $textcolor;
       border: $border;
+      font-weight: 500;
+      background-image: url(../pictures/background/wood.svg);
     }
     #leaderboard {
       display: none;

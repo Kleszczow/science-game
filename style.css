@@ -30,13 +30,13 @@
   height: min-content;
 }
 .gridSpecial {
-  background-color: red;
+  background-color: transparent;
 }
 .gridSpecialTwo {
-  background-color: green;
+  background-color: transparent;
 }
 .gridSpecialThre {
-  background-color: blue;
+  background-color: transparent;
 }
 .gridImg {
   width: 30px;

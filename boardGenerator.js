@@ -27,6 +27,7 @@ const bugDiv = document.querySelector(".bugDiv");
 const leadybird = document.querySelector(".leadybird");
 const closeBugDiv = document.querySelector("#closeBugDiv");
 const send = document.querySelector("#send");
+const demonstration = document.querySelector("#demonstration");
 
 let data = { bugs: 1, rows: 4, cols: 5 };
 
@@ -74,6 +75,7 @@ let elementArr = [];
 let answer = true;
 let fall = true;
 let oneAnswer = false;
+let demonstrationMode = false;
 winerBugs = false;
 
 container.style.pointerEvents = "auto";
@@ -191,6 +193,7 @@ const checkQuestion = () => {
   let element = elementArr.slice(-1);
   let lastElement = element[0];
   container.style.pointerEvents = "auto";
+
   if (number.length > 0) {
     answer = true;
     if (number == solution) {
@@ -202,7 +205,6 @@ const checkQuestion = () => {
       }
       scores--;
       subtext.innerHTML = `Bugs Left: ${scores}`;
-
       if (scores == 0) {
         winGame();
         wining.classList.add("fadeIn");
@@ -233,6 +235,9 @@ const submnitFuncion = () => {
       oneAnswer = false;
       checkQuestion();
       submit.disabled = true;
+      if (demonstrationMode) {
+        demonstrationShow();
+      }
     }
   }
 };
@@ -344,6 +349,8 @@ resetGame.addEventListener("click", () => {
   resetImg();
   replayGameWin();
   generateImg();
+
+  isOn = false;
 });
 
 const replayGameWin = () => {
@@ -356,6 +363,7 @@ const replayGameWin = () => {
   if (bugs > 19) {
     winerBugs = true;
   }
+  demonstrationShowClear();
 };
 
 const replayGameLost = () => {
@@ -383,6 +391,8 @@ resetGameLost.addEventListener("click", () => {
   resetImg();
   replayGameLost();
   generateImg();
+
+  isOn = false;
 });
 
 for (let i = 0; i < gridItems.length; i++) {
@@ -563,4 +573,41 @@ closeBugDiv.addEventListener("click", () => {
 
 send.addEventListener("click", () => {
   window.location.href = "./pages/thankYou.html";
+});
+
+// demonstration mode
+
+const demonstrationShow = () => {
+  if (demonstrationMode) {
+    const gridSpecial = document.querySelectorAll(".gridSpecial");
+    const gridSpecialTwo = document.querySelectorAll(".gridSpecialTwo");
+    const gridSpecialThre = document.querySelectorAll(".gridSpecialThre");
+    gridSpecial.forEach((element) => {
+      element.style.background = "red";
+    });
+    gridSpecialTwo.forEach((element) => {
+      element.style.background = "green";
+    });
+    gridSpecialThre.forEach((element) => {
+      element.style.background = "blue";
+    });
+  }
+};
+const demonstrationShowClear = () => {
+  gridItems.forEach((element) => {
+    element.style.background = "transparent";
+  });
+};
+
+let isOn = false;
+
+demonstration.addEventListener("click", () => {
+  isOn = !isOn;
+
+  if (isOn) {
+    demonstrationMode = true;
+    demonstrationShow();
+  } else {
+    demonstrationShowClear();
+  }
 });

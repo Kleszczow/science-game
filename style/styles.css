@@ -28,11 +28,14 @@ body #buttons {
 }
 body #buttons #leaderboard,
 body #buttons #rules,
-body #buttons #statsistic {
+body #buttons #statsistic,
+body #buttons #demonstration {
   border-radius: 5px;
   padding: 6px 10px;
   color: #ddd;
   border: 3px solid black;
+  font-weight: 500;
+  background-image: url(../pictures/background/wood.svg);
 }
 body #buttons #leaderboard {
   display: none;
@@ -334,37 +337,4 @@ main #contactform {
 }
 .bugDiv #formMail textarea:hover {
   border: 3px solid #694b23;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-#bodyThanks {
-  background: rgba(0, 0, 0, 0.5) url(../pictures/background/1546253828.svg);
-  background-size: cover;
-  background-blend-mode: darken;
-}
-
-#thanks {
-  color: #ddd;
-  text-shadow: 0px 0px 3px rgb(66, 68, 90);
-}
-
-#great {
-  margin-top: 20px;
-  color: #ddd;
-  text-align: center;
-  line-height: 0.8;
-  text-shadow: 0px 0px 3px rgb(66, 68, 90);
-}
-
-#back {
-  margin-top: 20px;
-  background-color: #ddd;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 15px;
 }/*# sourceMappingURL=styles.css.map */
